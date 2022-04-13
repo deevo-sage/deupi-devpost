@@ -1,9 +1,8 @@
 import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { extendTheme, Flex, NativeBaseProvider } from "native-base";
+import { extendTheme, NativeBaseProvider } from "native-base";
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import { Login, Signup } from "../screens/auth";
+import { Import, Login, Signup } from "../screens/auth";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../utils/types";
 // import LinkingConfiguration from "./LinkingConfiguration";
@@ -11,6 +10,7 @@ const config = {
   useSystemColorMode: false,
   initialColorMode: "dark",
 };
+
 const customTheme = extendTheme({ config });
 export default function Navigation({}: {}) {
   return (
@@ -55,6 +55,17 @@ function RootNavigator() {
         }}
       />
       <Stack.Screen
+        name="Import"
+        component={Import}
+        options={{
+          headerShadowVisible: false,
+          headerShown: true,
+          headerTitle: "",
+          headerBackTitle: "Back",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
@@ -62,4 +73,3 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
-const styles = StyleSheet.create({ header: { alignItems: "center" } });

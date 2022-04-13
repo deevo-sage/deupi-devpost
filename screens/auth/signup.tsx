@@ -1,8 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import { Button, Flex, Link, Text } from "native-base";
 import React, { FC } from "react";
 interface SignupProps {}
 
 export const Signup: FC<SignupProps> = ({}) => {
+  const nav = useNavigation();
+  const importRecoveryPhrase = () => {
+    nav.navigate("Import");
+  };
+  nav.navigate("Import");
   return (
     <Flex w="100%" h="100%" px="2">
       <Flex flex={1}>
@@ -31,6 +37,7 @@ export const Signup: FC<SignupProps> = ({}) => {
             borderWidth="2"
             variant={"outline"}
             w="80%"
+            onPress={importRecoveryPhrase}
           >
             <Text color="blue.500" fontWeight={"bold"}>
               Import using Secret Recovery Phrase
@@ -47,14 +54,15 @@ export const Signup: FC<SignupProps> = ({}) => {
             <Text fontWeight={"bold"}>Create a new wallet </Text>
           </Button>
         </Flex>
-        <Flex flex={0.7} justify="end" mb="4" align={"center"}>
-          <Text fontSize={"xs"}>
-            By proceeding, you agree to these{" "}
-            <Link href="https://youtu.be/dQw4w9WgXcQ" isExternal>
-              Terms and Conditions
-            </Link>
-          </Text>
-        </Flex>
+        <Flex flex={0.7} justify="end" mb="4" align={"center"}></Flex>
+      </Flex>
+      <Flex h="10" justify={"center"} align="center">
+        <Text fontSize={"xs"}>
+          By proceeding, you agree to these{" "}
+          <Link href="https://youtu.be/dQw4w9WgXcQ" isExternal>
+            Terms and Conditions
+          </Link>
+        </Text>
       </Flex>
     </Flex>
   );
