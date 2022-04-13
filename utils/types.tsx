@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Import: undefined;
   Congo: undefined;
+  Home: undefined;
   Modal: undefined;
   NotFound: undefined;
 };

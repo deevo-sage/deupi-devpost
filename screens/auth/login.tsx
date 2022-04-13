@@ -9,7 +9,7 @@ interface LoginProps {}
 export const Login: FC<LoginProps> = ({}) => {
   const [bio, setBio] = useState(true);
   return (
-    <Flex>
+    <Flex align={"center"}>
       <Flex h={Layout.window.height / 3} pt="32">
         <Suspense fallback="sad">
           <Canvas>
@@ -19,7 +19,7 @@ export const Login: FC<LoginProps> = ({}) => {
           </Canvas>
         </Suspense>
       </Flex>
-      <Flex align={"center"} pt="10">
+      <Flex maxW={"650"} w="100%" align={"center"} pt="10">
         <Text fontSize={"4xl"} fontWeight="bold">
           Welcome Back!
         </Text>

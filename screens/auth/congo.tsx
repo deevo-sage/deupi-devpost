@@ -2,9 +2,11 @@ import { Button, Flex, Heading, Link, Text } from "native-base";
 import React, { FC } from "react";
 import { MetaMaskText } from "./signup";
 import ConfettiCannon from "react-native-confetti-cannon"
+import { useNavigation } from "@react-navigation/native";
 interface CongoProps { }
 
 export const Congo: FC<CongoProps> = ({ }) => {
+  const nav = useNavigation()
   return (
     <Flex h="100%" overflow={"hidden"}>
       {/*  @ts-ignore:next-line */}
@@ -56,7 +58,8 @@ export const Congo: FC<CongoProps> = ({ }) => {
         </Link>
       </Flex>
       <Flex align={"center"} pb="20">
-        <Button py="3" colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"}>Done</Button> 
+        <Button py="3"
+          colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"} onPress={() => { nav.navigate("Login") }}>Done</Button>
       </Flex>
     </Flex>
   );

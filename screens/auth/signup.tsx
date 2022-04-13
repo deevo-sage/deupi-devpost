@@ -8,7 +8,6 @@ export const Signup: FC<SignupProps> = ({}) => {
   const importRecoveryPhrase = () => {
     nav.navigate("Import");
   };
-  nav.navigate("Login");
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
