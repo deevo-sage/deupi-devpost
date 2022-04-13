@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Signup: undefined;
   Import: undefined;
+  Congo: undefined;
   Modal: undefined;
   NotFound: undefined;
 };

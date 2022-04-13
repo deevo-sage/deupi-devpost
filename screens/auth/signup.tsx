@@ -8,15 +8,11 @@ export const Signup: FC<SignupProps> = ({}) => {
   const importRecoveryPhrase = () => {
     nav.navigate("Import");
   };
-  nav.navigate("Import");
+  nav.navigate("Congo");
   return (
     <Flex w="100%" h="100%" px="2">
+      <MetaMaskText />
       <Flex flex={1}>
-        <Flex h="50" justify={"end"} align={"center"}>
-          <Text fontFamily="mono" letterSpacing={"2xl"} fontWeight="semibold">
-            METAMASK
-          </Text>
-        </Flex>
         <Flex h="100" justify={"space-evenly"} align={"center"}>
           <Text fontSize={"xl"} fontWeight="bold">
             Wallet Setup
@@ -56,14 +52,29 @@ export const Signup: FC<SignupProps> = ({}) => {
         </Flex>
         <Flex flex={0.7} justify="end" mb="4" align={"center"}></Flex>
       </Flex>
-      <Flex h="10" justify={"center"} align="center">
-        <Text fontSize={"xs"}>
-          By proceeding, you agree to these{" "}
-          <Link href="https://youtu.be/dQw4w9WgXcQ" isExternal>
-            Terms and Conditions
-          </Link>
-        </Text>
-      </Flex>
+      <TermsFooter />
+    </Flex>
+  );
+};
+interface MetaMaskTextProps {}
+export const TermsFooter = () => {
+  return (
+    <Flex h="10" justify={"center"} align="center">
+      <Text fontSize={"xs"}>
+        By proceeding, you agree to these{" "}
+        <Link href="https://youtu.be/dQw4w9WgXcQ" isExternal>
+          Terms and Conditions
+        </Link>
+      </Text>
+    </Flex>
+  );
+};
+export const MetaMaskText: FC<MetaMaskTextProps> = ({ children }) => {
+  return (
+    <Flex h="50" justify={"end"} align={"center"}>
+      <Text fontFamily="mono" letterSpacing={"2xl"} fontWeight="semibold">
+        METAMASK
+      </Text>
     </Flex>
   );
 };

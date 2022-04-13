@@ -2,7 +2,7 @@ import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import * as React from "react";
-import { Import, Login, Signup } from "../screens/auth";
+import { Congo, Import, Login, Signup } from "../screens/auth";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../utils/types";
 // import LinkingConfiguration from "./LinkingConfiguration";
@@ -34,6 +34,7 @@ function RootNavigator() {
       initialRouteName="Signup"
       screenOptions={{
         headerStyle: {
+          // @ts-ignore:next-line
           elevation: 0,
           shadowOpacity: 0,
         },
@@ -63,6 +64,13 @@ function RootNavigator() {
           headerTitle: "",
           headerBackTitle: "Back",
           headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="Congo"
+        component={Congo}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen

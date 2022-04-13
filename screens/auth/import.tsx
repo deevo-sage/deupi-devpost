@@ -10,6 +10,7 @@ import {
   WarningOutlineIcon,
 } from "native-base";
 import React, { FC, useState } from "react";
+import { MetaMaskText, TermsFooter } from "./signup";
 
 interface ImportProps {}
 
@@ -21,11 +22,7 @@ export const Import: FC<ImportProps> = ({}) => {
 
   return (
     <Flex w="100%" h="100%" px="2">
-      <Flex h="50" justify={"end"} align={"center"}>
-        <Text fontFamily="mono" letterSpacing={"2xl"} fontWeight="semibold">
-          METAMASK
-        </Text>
-      </Flex>
+      <MetaMaskText />
       <Flex h="12" justify={"end"} align={"center"}>
         <Text fontSize={"xl"} fontWeight="bold">
           Import from seed
@@ -71,6 +68,9 @@ export const Import: FC<ImportProps> = ({}) => {
           ></Switch>
         </Flex>
         <Button
+          isDisabled={
+            Pass === "" || CPass === "" || Phrase === "" || CPass !== Pass
+          }
           borderRadius={"full"}
           py="3"
           w="80%"
@@ -80,14 +80,7 @@ export const Import: FC<ImportProps> = ({}) => {
           <Text fontWeight={"semibold"}>Import</Text>
         </Button>
       </Flex>
-      <Flex h="10" justify={"center"} align="center">
-        <Text fontSize={"xs"}>
-          By proceeding, you agree to these{" "}
-          <Link href="https://youtu.be/dQw4w9WgXcQ" isExternal>
-            Terms and Conditions
-          </Link>
-        </Text>
-      </Flex>
+      <TermsFooter />
     </Flex>
   );
 };
@@ -128,6 +121,9 @@ const SafeInput: FC<SafeInputProps> = ({
       </FormControl.Label>
       <Input
         mt="2"
+        focusOutlineColor={"blue.500"}
+        _focus={{ borderColor: "blue.500", focusOutlineColor: "blue.500" }}
+        _hover={{ borderColor: "blue.500", focusOutlineColor: "blue.500" }}
         h="12"
         type={!hide ? "text" : "password"}
         placeholder={placeholder}
