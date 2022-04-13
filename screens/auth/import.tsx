@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   Button,
   Flex,
@@ -9,7 +10,7 @@ import {
   Text,
   WarningOutlineIcon,
 } from "native-base";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { MetaMaskText, TermsFooter } from "./signup";
 
 interface ImportProps {}
@@ -19,7 +20,7 @@ export const Import: FC<ImportProps> = ({}) => {
   const [Pass, setPass] = useState<string>("");
   const [CPass, setCPass] = useState<string>("");
   const [Biometric, setBiometric] = useState<boolean>(true);
-
+  const nav = useNavigation();
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
@@ -76,6 +77,7 @@ export const Import: FC<ImportProps> = ({}) => {
           w="80%"
           colorScheme={"blue"}
           mt="8"
+          onPress={() => nav.navigate("Congo")}
         >
           <Text fontWeight={"semibold"}>Import</Text>
         </Button>
@@ -94,7 +96,7 @@ interface SafeInputProps {
   mt?: string;
   helper?: string;
 }
-const SafeInput: FC<SafeInputProps> = ({
+export const SafeInput: FC<SafeInputProps> = ({
   value,
   onChangeText = () => {},
   placeholder,
@@ -105,6 +107,7 @@ const SafeInput: FC<SafeInputProps> = ({
   helper,
 }) => {
   const [hide, setHide] = useState(initVal || showHide);
+
   return (
     <FormControl w="80%" mt={mt}>
       <FormControl.Label>
@@ -122,7 +125,11 @@ const SafeInput: FC<SafeInputProps> = ({
       <Input
         mt="2"
         focusOutlineColor={"blue.500"}
-        _focus={{ borderColor: "blue.500", focusOutlineColor: "blue.500" }}
+        _focus={{
+          borderColor: "blue.500",
+          focusOutlineColor: "blue.500",
+          _hover: { borderColor: "blue.500", focusOutlineColor: "blue.500" },
+        }}
         _hover={{ borderColor: "blue.500", focusOutlineColor: "blue.500" }}
         h="12"
         type={!hide ? "text" : "password"}

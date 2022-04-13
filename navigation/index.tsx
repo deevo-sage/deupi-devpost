@@ -41,7 +41,7 @@ function RootNavigator() {
       }}
     >
       <Stack.Screen
-        name="Root"
+        name="Login"
         component={Login}
         options={{ headerShown: false }}
       />

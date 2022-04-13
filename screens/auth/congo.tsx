@@ -55,7 +55,9 @@ export const Congo: FC<CongoProps> = ({ }) => {
           </Text>
         </Link>
       </Flex>
-      <Flex align={"center"} pb="20"><Button py="3" colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"}>Done</Button>  </Flex>
+      <Flex align={"center"} pb="20">
+        <Button py="3" colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"}>Done</Button> 
+      </Flex>
     </Flex>
   );
 };
