@@ -11,15 +11,10 @@ import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../utils/types";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+export default function Navigation({}: {}) {
   return (
     <NavigationContainer
-      // linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    // linking={LinkingConfiguration}
     >
       <RootNavigator />
     </NavigationContainer>
