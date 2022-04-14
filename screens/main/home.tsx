@@ -18,12 +18,22 @@ import { getProvider, shrinkAddress, walletFromPhrase } from '../../utils';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking, ScrollView } from 'react-native';
 import { ethers } from 'ethers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
   const address = '0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806';
   const accountName = 'Account 1';
   const Balance = '$11.8';
+  useEffect(() => {
+    (async () => {
+      const provider = getProvider();
+      const mnemonic = await AsyncStorage.getItem('phrase');
+      if (mnemonic) {
+        const wallet = walletFromPhrase(provider, mnemonic);
+      }
+    })();
+  }, []);
   return (
     <Flex pt="4" height={'100%'}>
       <Flex align={'center'}>
