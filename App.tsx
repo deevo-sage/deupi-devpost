@@ -4,13 +4,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
 import { registerRootComponent } from 'expo';
+import Layout from './constants/Layout';
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  if (isLoadingComplete) {
+  if (!isLoadingComplete) {
     return <></>;
   } else {
     return (
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ height: Layout.window.height, width: '100%' }}>
         <Navigation />
         <StatusBar />
       </SafeAreaProvider>
