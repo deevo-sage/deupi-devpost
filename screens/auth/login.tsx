@@ -1,6 +1,6 @@
 import React, { FC, Suspense, useRef, useState } from 'react';
 import { Button, Flex, Link, Switch, Text, View } from 'native-base';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber/native';
 import Layout from '../../constants/Layout';
 import { SafeInput } from './import';
 interface LoginProps {}
