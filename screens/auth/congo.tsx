@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Link, Text } from "native-base";
 import React, { FC } from "react";
 import { MetaMaskText } from "./signup";
-import ConfettiCannon from "react-native-confetti-cannon"
+// import ConfettiCannon from "react-native-confetti-cannon"
 import { useNavigation } from "@react-navigation/native";
 interface CongoProps { }
 
@@ -10,7 +10,7 @@ export const Congo: FC<CongoProps> = ({ }) => {
   return (
     <Flex h="100%" overflow={"hidden"}>
       {/*  @ts-ignore:next-line */}
-      <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} fadeOut />
+      {/* <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} fadeOut /> */}
       <MetaMaskText />
       <Flex flex={1} pt="12" align={"center"}>
         <Text fontSize={"90"}>🎉</Text>
