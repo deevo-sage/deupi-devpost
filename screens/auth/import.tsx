@@ -1,4 +1,6 @@
+// import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Button,
   Flex,
@@ -13,6 +15,8 @@ import {
 } from "native-base";
 import React, { FC, useState } from "react";
 import { MetaMaskText, TermsFooter } from "./signup";
+import { ethers } from "ethers";
+import { walletFromPhrase } from "../../utils";
 
 interface ImportProps {}
 
@@ -79,7 +83,18 @@ export const Import: FC<ImportProps> = ({}) => {
             w="80%"
             colorScheme={"blue"}
             mt="8"
-            onPress={() => nav.navigate("Congo")}
+            onPress={async () => {
+              // nav.navigate("Congo");
+              const provider = new ethers.providers.AlchemyProvider(
+                "maticmum",
+                "shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m"
+              );
+              const data = {};
+              // AsyncStorage.setItem
+              if (ethers.utils.isValidMnemonic(Phrase)) {
+                const wallet = walletFromPhrase(provider, Phrase);
+              }
+            }}
           >
             <Text fontWeight={"semibold"}>Import</Text>
           </Button>
