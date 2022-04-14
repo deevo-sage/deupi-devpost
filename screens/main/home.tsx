@@ -17,7 +17,6 @@ import { Feather } from '@expo/vector-icons';
 import { getProvider, shrinkAddress, walletFromPhrase } from '../../utils';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking, ScrollView } from 'react-native';
-import { ethers } from 'ethers';
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
@@ -25,7 +24,7 @@ export const Home: FC<HomeProps> = ({}) => {
   const accountName = 'Account 1';
   const Balance = '$11.8';
   return (
-    <Flex pt="4">
+    <Flex pt="4" h="100%">
       <Flex align={'center'}>
         <View
           borderWidth={2}
@@ -210,9 +209,7 @@ const Transactions = ({ address }) => {
     },
   ]);
   async function GetTransaction() {
-    const provider = getProvider('maticmum');
-    const wallet = walletFromPhrase(provider, '');
-    await axios
+    axios
       .post(config.url, { ...config.data, params: [params[0]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -223,7 +220,7 @@ const Transactions = ({ address }) => {
       .catch(function (error) {
         console.log(error);
       });
-    await axios
+    axios
       .post(config.url, { ...config.data, params: [params[1]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -243,10 +240,10 @@ const Transactions = ({ address }) => {
       <Flex w="100%" bgColor={'gray.900'} h="100%">
         {transaction
           .sort((a, b) => Number(b.blockNum) - Number(a.blockNum))
-          .map((item) => {
+          .map((item, i) => {
             return (
               <Transaction
-                key={item.hash}
+                key={i + 'transactions'}
                 data={item}
                 mine={item.from.toLowerCase() === address.toLowerCase()}
               />
