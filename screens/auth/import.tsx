@@ -13,7 +13,7 @@ import {
   Text,
   WarningOutlineIcon,
 } from "native-base";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MetaMaskText, TermsFooter } from "./signup";
 import { ethers } from "ethers";
 import { walletFromPhrase } from "../../utils";
@@ -25,7 +25,15 @@ export const Import: FC<ImportProps> = ({}) => {
   const [Pass, setPass] = useState<string>("");
   const [CPass, setCPass] = useState<string>("");
   const [Biometric, setBiometric] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const nav = useNavigation();
+
+  useEffect(() => {
+    AsyncStorage.getItem("password").then((e) => {
+      if (e) nav.navigate("Login");
+    });
+  }, []);
+
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
@@ -81,18 +89,24 @@ export const Import: FC<ImportProps> = ({}) => {
             borderRadius={"full"}
             py="3"
             w="80%"
+            isLoading={loading}
             colorScheme={"blue"}
             mt="8"
             onPress={async () => {
+              // console.log(wallet)
+              setLoading(true);
               // nav.navigate("Congo");
               const provider = new ethers.providers.AlchemyProvider(
                 "maticmum",
                 "shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m"
               );
-              const data = {};
               // AsyncStorage.setItem
               if (ethers.utils.isValidMnemonic(Phrase)) {
-                const wallet = walletFromPhrase(provider, Phrase);
+                const { address } = walletFromPhrase(provider, Phrase);
+                AsyncStorage.setItem("password", Pass);
+                AsyncStorage.setItem("address", address);
+
+                nav.navigate("Congo");
               }
             }}
           >

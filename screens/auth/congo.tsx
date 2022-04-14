@@ -60,7 +60,7 @@ export const Congo: FC<CongoProps> = ({ }) => {
       </Flex>
       <Flex align={"center"} pb="20">
         <Button py="3"
-          colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"} onPress={() => { nav.navigate("Login") }}>Done</Button>
+          colorScheme={"blue"} borderRadius="full" w="80%" maxW={"500"} onPress={() => { nav.navigate("Home") }}>Done</Button>
       </Flex>
     </Flex>
   );

@@ -4,30 +4,43 @@ import { Button, Flex, Link, Switch, Text, View } from "native-base";
 import Layout from "../../constants/Layout";
 import { SafeInput } from "./import";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 interface LoginProps {}
 
 export const Login: FC<LoginProps> = ({}) => {
   const [bio, setBio] = useState(true);
   const nav = useNavigation();
-  const toPayPage = () => {
-    nav.navigate("Import");
+  const [pass, setPass] = useState<string | undefined>();
+
+  const resolveLogin = (pass: string | undefined) => {
+    AsyncStorage.getItem("password").then((e) => {
+      if (e === pass) nav.navigate("Home");
+    });
   };
+
   return (
     <Flex align={"center"}>
-       <View h={Layout.window.height / 4} pt="16">
-         {/* <Suspense fallback="sad">
+      <View h={Layout.window.height / 4} pt="16">
+        {/* <Suspense fallback="sad">
            <Canvas style={{ width: 400 }}>
              <ambientLight intensity={1} />
              <pointLight position={[10, 10, 10]} />
              <Sphere position={[0, 0, 0]} />
            </Canvas>
          </Suspense> */}
-      </View> 
+      </View>
       <Flex maxW={"650"} w="100%" align={"center"} pt="10">
         <Text fontSize={"4xl"} fontWeight="bold">
           Welcome Back!
         </Text>
-        <SafeInput placeholder="Password" heading="Password" />
+        <SafeInput
+          value={pass}
+          showHide
+          onChangeText={(e) => setPass(e)}
+          placeholder="Password"
+          heading="Password"
+        />
         <Flex mt="6" direction="row" w="80%" justify={"space-between"}>
           <Text>Unlock with Biometric?</Text>
           <Switch
@@ -43,7 +56,10 @@ export const Login: FC<LoginProps> = ({}) => {
           maxW={"500"}
           borderRadius="full"
           colorScheme={"blue"}
-          onPress={toPayPage}
+          disabled={!pass}
+          onPress={() => {
+            resolveLogin(pass);
+          }}
         >
           UNLOCK
         </Button>
