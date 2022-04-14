@@ -12,11 +12,10 @@ import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Feather } from '@expo/vector-icons';
-import { shrinkAddress } from '../../utils';
-import { RNCamera } from 'react-native-camera';
-import { Camera } from 'expo-camera';
+import { shrinkAddress, walletFromPhrase } from '../../utils';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking } from 'react-native';
+import { ethers } from 'ethers';
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
@@ -88,11 +87,16 @@ const Transactions = ({ address }) => {
     jsonrpc: '2.0',
     id: 0,
     method: 'alchemy_getAssetTransfers',
+    transfers: ['external', 'internal', 'token'],
     params: [
       {
-        fromAddress: address,
-        contract: '0x0000000000000000000000000000000000001010',
-        category: ['erc20', 'token'],
+        fromBlock: '0x1837271',
+        maxCount: '0x5',
+        fromAddress: '0x1Dd8D38e294D632Eab2d445beAc8340462db021d',
+        // toAddress: address,
+        // toAddress: address,
+        excludeZeroValue: false,
+        category: ['token'],
       },
     ],
   };
@@ -106,6 +110,12 @@ const Transactions = ({ address }) => {
     data: data,
   };
   async function GetTransaction() {
+    const provider = new ethers.providers.AlchemyProvider(
+      'maticmum',
+      'shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m',
+    );
+    const wallet = walletFromPhrase(provider, '');
+    // provider.
     await axios
       .post(config.url, config.data)
       .then(function (response) {
