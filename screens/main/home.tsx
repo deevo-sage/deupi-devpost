@@ -40,7 +40,7 @@ export const Home: FC<HomeProps> = ({}) => {
               uri:
                 'https://avatars.dicebear.com/api/identicon/' +
                 address +
-                '.svg',
+                '.png',
             }}
           />
         </View>
