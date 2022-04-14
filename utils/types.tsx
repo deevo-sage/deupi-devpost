@@ -24,6 +24,7 @@ export type RootStackParamList = {
   Home: undefined;
   Modal: undefined;
   NotFound: undefined;
+  Pay: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
