@@ -33,7 +33,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Pay"
+      initialRouteName="Home"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
