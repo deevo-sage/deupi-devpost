@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ethers, Wallet } from 'ethers';
+import { Chains } from './types';
 
 export const killSession = async (set: any) => {};
 export const walletFromPhrase = (
@@ -15,13 +16,10 @@ export const walletFromPhrase = (
 };
 
 const providers = {
-  matic: '',
+  matic: 'VN01mOagNw5pWRtbuOdNOBr8dKS27zhp',
   maticmum: 'yxZmPA3sV8sdkDNYWzvRMZEvRiyKhwt-',
-  homestead: '',
-  kovan: '',
+  homestead: 'GamugAUazA5YnYqAEYtXZji3lNU2rg3A',
 };
-export const getProvider = (
-  val: 'matic' | 'maticmum' | 'homestead' | 'kovan' = 'maticmum',
-) => {
+export const getProvider = (val: Chains = 'maticmum') => {
   return new ethers.providers.AlchemyProvider(val, providers[val]);
 };
