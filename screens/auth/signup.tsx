@@ -1,20 +1,26 @@
-import { useNavigation } from "@react-navigation/native";
-import { Button, Flex, Link, Text } from "native-base";
-import React, { FC } from "react";
-import { Linking, Pressable } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Flex, Link, Text } from 'native-base';
+import React, { FC, useEffect } from 'react';
+import { Linking, Pressable } from 'react-native';
 interface SignupProps {}
 
 export const Signup: FC<SignupProps> = ({}) => {
   const nav = useNavigation();
   const importRecoveryPhrase = () => {
-    nav.navigate("Import");
+    nav.navigate('Import');
   };
+  useEffect(() => {
+    AsyncStorage.getItem('password').then((e) => {
+      if (e) nav.navigate('Login');
+    });
+  }, []);
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
       <Flex flex={1}>
-        <Flex h="100" justify={"space-evenly"} align={"center"}>
-          <Text fontSize={"xl"} fontWeight="bold">
+        <Flex h="100" justify={'space-evenly'} align={'center'}>
+          <Text fontSize={'xl'} fontWeight="bold">
             Wallet Setup
           </Text>
           <Text fontWeight="semibold">
@@ -23,34 +29,34 @@ export const Signup: FC<SignupProps> = ({}) => {
         </Flex>
       </Flex>
       <Flex flex={1}>
-        <Flex flex={1} justify={"flex-end"} align="center">
+        <Flex flex={1} justify={'flex-end'} align="center">
           <Button
-            colorScheme={"blue"}
+            colorScheme={'blue'}
             py="3"
-            maxW={"500"}
-            borderRadius={"full"}
-            borderColor={"blue.500"}
+            maxW={'500'}
+            borderRadius={'full'}
+            borderColor={'blue.500'}
             borderWidth="2"
-            variant={"outline"}
+            variant={'outline'}
             w="80%"
             onPress={importRecoveryPhrase}
           >
-            <Text color="blue.500" fontWeight={"bold"}>
+            <Text color="blue.500" fontWeight={'bold'}>
               Import using Secret Recovery Phrase
             </Text>
           </Button>
           <Button
             py="3"
-            maxW={"500"}
+            maxW={'500'}
             colorScheme="blue"
-            borderRadius={"full"}
+            borderRadius={'full'}
             mt="4"
             w="80%"
           >
-            <Text fontWeight={"bold"}>Create a new wallet </Text>
+            <Text fontWeight={'bold'}>Create a new wallet </Text>
           </Button>
         </Flex>
-        <Flex flex={0.7} justify="flex-end" mb="4" align={"center"}></Flex>
+        <Flex flex={0.7} justify="flex-end" mb="4" align={'center'}></Flex>
       </Flex>
       <TermsFooter />
     </Flex>
@@ -59,13 +65,13 @@ export const Signup: FC<SignupProps> = ({}) => {
 interface MetaMaskTextProps {}
 export const TermsFooter = () => {
   return (
-    <Flex h="16" w="100%" justify={"center"} align="center">
-      <Text fontSize={"xs"}>
-        By proceeding, you agree to these{" "}
+    <Flex h="16" w="100%" justify={'center'} align="center">
+      <Text fontSize={'xs'}>
+        By proceeding, you agree to these{' '}
         <Pressable
-          onPress={() => Linking.openURL("https://youtu.be/dQw4w9WgXcQ")}
+          onPress={() => Linking.openURL('https://youtu.be/dQw4w9WgXcQ')}
         >
-          <Text color={"white"} underline={true} fontSize={"xs"}>
+          <Text color={'white'} underline={true} fontSize={'xs'}>
             Terms and Conditions
           </Text>
         </Pressable>
@@ -75,8 +81,8 @@ export const TermsFooter = () => {
 };
 export const MetaMaskText: FC<MetaMaskTextProps> = ({ children }) => {
   return (
-    <Flex mt="8" align={"center"} w="100%">
-      <Text fontFamily="mono" letterSpacing={"2xl"} fontWeight="semibold">
+    <Flex mt="8" align={'center'} w="100%">
+      <Text fontFamily="mono" letterSpacing={'2xl'} fontWeight="semibold">
         DeUPI
       </Text>
     </Flex>

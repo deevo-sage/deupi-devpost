@@ -28,12 +28,6 @@ export const Import: FC<ImportProps> = ({}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const nav = useNavigation();
 
-  useEffect(() => {
-    AsyncStorage.getItem("password").then((e) => {
-      if (e) nav.navigate("Login");
-    });
-  }, []);
-
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
