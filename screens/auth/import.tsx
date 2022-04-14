@@ -98,7 +98,7 @@ export const Import: FC<ImportProps> = ({}) => {
               if (ethers.utils.isValidMnemonic(Phrase)) {
                 const { address } = walletFromPhrase(provider, Phrase);
                 AsyncStorage.setItem("password", Pass);
-                AsyncStorage.setItem("address", address);
+                AsyncStorage.setItem("phrase", Phrase);
 
                 nav.navigate("Congo");
               }
