@@ -1,5 +1,3 @@
-// import { Alert } from "react-native";
-
 export const debounce = (fn: any, ms: number) => {
   let temp: any = undefined;
   return (val: any) => {

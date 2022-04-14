@@ -1,5 +1,4 @@
 import { Feather } from "@expo/vector-icons";
-import Clipboard from "@react-native-clipboard/clipboard";
 import {
   Button,
   Flex,
@@ -19,11 +18,6 @@ export const Pay: React.FC = () => {
   const [amt, setAmt] = useState<number | undefined>();
 
   const toast = useToast();
-
-  const CopyToClipboard = (address: string) => {
-    Clipboard.setString(address);
-    Alert.alert("Successfully copied to clipboard");
-  };
 
   const address = "0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806";
 
@@ -64,7 +58,6 @@ export const Pay: React.FC = () => {
                 fontSize="xl"
                 fontWeight="semibold"
                 onPress={() => {
-                  CopyToClipboard(address);
                   toast.show({
                     title: "Copied address to clipboard",
                     placement: "bottom",
