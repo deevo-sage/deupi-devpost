@@ -8,7 +8,7 @@ import {
   View,
 } from "native-base";
 import React, { FC, useEffect } from "react";
-import Clipboard from "@react-native-clipboard/clipboard";
+// import Clipboard from "@react-native-clipboard/clipboard";
 import { Alert } from "react-native";
 import axios from "axios";
 
@@ -19,10 +19,10 @@ export const Home: FC<HomeProps> = ({}) => {
   const address = "0x1dd8d38e294d632eab2d445beac8340462db021d";
   const accountName = "Account 1";
   const Balance = "$11.8";
-  const CopyToClipboard = () => {
-    Clipboard.setString(address);
-    Alert.alert("Successfully copied to clipboard");
-  };
+  // const CopyToClipboard = () => {
+  //   Clipboard.setString(address);
+  //   Alert.alert("Successfully copied to clipboard");
+  // };
 
   return (
     <Flex pt="4">
@@ -51,7 +51,7 @@ export const Home: FC<HomeProps> = ({}) => {
         <Text mb="4" fontSize={"sm"}>
           {Balance}
         </Text>
-        <Pressable onPress={CopyToClipboard}>
+        <Pressable>
           <View
             borderRadius={"full"}
             py="1"
