@@ -1,5 +1,14 @@
 import { Feather } from "@expo/vector-icons";
-import { Avatar, Button, Flex, Icon, Input, Text, useToast } from "native-base";
+import {
+  Avatar,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Input,
+  Text,
+  useToast,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import Layout from "../../constants/Layout";
@@ -59,6 +68,9 @@ export const Pay: React.FC = () => {
             {shrinkAddress(address)}
           </Text>
         </Flex>
+        <Heading mt={5} fontSize="2xl">
+          Pay Money
+        </Heading>
         <Input
           // px={2}
           InputLeftElement={
