@@ -8,8 +8,7 @@ import {
   View,
 } from 'native-base';
 import React, { FC, useEffect } from 'react';
-// import Clipboard from '@react-native-clipboard/clipboard';
-import { Alert } from 'react-native';
+
 import axios from 'axios';
 
 import { Feather } from '@expo/vector-icons';
@@ -20,8 +19,7 @@ export const Home: FC<HomeProps> = ({}) => {
   const accountName = 'Account 1';
   const Balance = '$11.8';
   const CopyToClipboard = () => {
-  // Clipboard.setString(address);
-  // Alert.alert('Successfully copied to clipboard');
+    // Clipboard.setString(address);
   };
 
   return (
