@@ -1,5 +1,7 @@
 import { Avatar, Divider, Flex, Pressable, Text, View } from "native-base";
 import React, { FC, useEffect } from "react";
+// import Clipboard from '@react-native-clipboard/clipboard';
+import { Alert } from "react-native";
 import axios from "axios";
 
 import { Feather } from "@expo/vector-icons";
