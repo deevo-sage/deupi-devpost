@@ -23,6 +23,5 @@ const providers = {
 export const getProvider = (
   val: 'matic' | 'maticmum' | 'homestead' | 'kovan' = 'maticmum',
 ) => {
-  if (providers[val])
-    return new ethers.providers.AlchemyProvider(val, providers[val]);
+  return new ethers.providers.AlchemyProvider(val, providers[val]);
 };
