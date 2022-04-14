@@ -14,15 +14,15 @@ export const Login: FC<LoginProps> = ({}) => {
   };
   return (
     <Flex align={"center"}>
-      {/* <View h={Layout.window.height / 4} pt="16">
-        <Suspense fallback="sad">
-          <Canvas style={{ width: 400 }}>
-            <ambientLight intensity={1} />
-            <pointLight position={[10, 10, 10]} />
-            <Sphere position={[0, 0, 0]} />
-          </Canvas>
-        </Suspense>
-      </View> */}
+       <View h={Layout.window.height / 4} pt="16">
+         {/* <Suspense fallback="sad">
+           <Canvas style={{ width: 400 }}>
+             <ambientLight intensity={1} />
+             <pointLight position={[10, 10, 10]} />
+             <Sphere position={[0, 0, 0]} />
+           </Canvas>
+         </Suspense> */}
+      </View> 
       <Flex maxW={"650"} w="100%" align={"center"} pt="10">
         <Text fontSize={"4xl"} fontWeight="bold">
           Welcome Back!

@@ -59,7 +59,7 @@ export const Signup: FC<SignupProps> = ({}) => {
 interface MetaMaskTextProps {}
 export const TermsFooter = () => {
   return (
-    <Flex h="10" justify={'center'} align="center">
+    <Flex h="16" w="100%" justify={'center'} align="center">
       <Text fontSize={'xs'}>
         By proceeding, you agree to these{' '}
         <Pressable
