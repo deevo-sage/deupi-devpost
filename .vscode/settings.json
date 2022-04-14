@@ -1,7 +1,7 @@
 {
   "diffEditor.wordWrap": "on",
   "files.exclude": {
-    // ".*": true,
+    ".*": true,
     "**/.dist": true,
     "**/.git": true,
     "**/.next": true,
@@ -22,7 +22,7 @@
     "**/build/": true,
     "**/debug/": true,
     "**/dist/": true,
-    // "**/node_modules/": true,
+    "**/node_modules/": true,
     "**/obj": true,
     "yarn-error.log": true,
     "**/yarn-error.log": true

@@ -33,7 +33,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Signup"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
