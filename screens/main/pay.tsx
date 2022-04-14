@@ -1,4 +1,4 @@
-import { Feather } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons';
 import {
   Button,
   Flex,
@@ -9,17 +9,17 @@ import {
   ScrollView,
   Text,
   useToast,
-} from "native-base";
-import React, { useState } from "react";
-import Layout from "../../constants/Layout";
-import { shrinkAddress } from "../../utils/utils";
+} from 'native-base';
+import React, { useState } from 'react';
+import Layout from '../../constants/Layout';
+import { shrinkAddress } from '../../utils/utils';
 
 export const Pay: React.FC = () => {
   const [amt, setAmt] = useState<number | undefined>();
 
   const toast = useToast();
 
-  const address = "0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806";
+  const address = '0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806';
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,7 +42,6 @@ export const Pay: React.FC = () => {
               rounded="full"
               borderStyle="solid"
               borderColor="gray.500"
-              w="fit-content"
               direction="row"
               flex="1"
               align="center"
@@ -59,8 +58,8 @@ export const Pay: React.FC = () => {
                 fontWeight="semibold"
                 onPress={() => {
                   toast.show({
-                    title: "Copied address to clipboard",
-                    placement: "bottom",
+                    title: 'Copied address to clipboard',
+                    placement: 'bottom',
                     //   borderRadius: "0px",
                   });
                 }}
@@ -110,14 +109,14 @@ export const Pay: React.FC = () => {
       </Flex>
       <Button
         py="3"
-        maxW={"500"}
+        maxW={'500'}
         colorScheme="blue"
-        borderRadius={"full"}
+        borderRadius={'full'}
         mt="4"
         w="50%"
       >
-        <Text fontWeight={"bold"}>
-          Pay {amt === NaN || !amt ? "" : "₹" + amt?.toLocaleString()}
+        <Text fontWeight={'bold'}>
+          Pay {amt === NaN || !amt ? '' : '₹' + amt?.toLocaleString()}
         </Text>
       </Button>
     </Flex>
