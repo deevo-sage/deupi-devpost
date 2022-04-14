@@ -1,17 +1,22 @@
 import { Avatar, Divider, Flex, Pressable, Text, View } from "native-base";
 import React, { FC, useEffect } from "react";
-// import Clipboard from '@react-native-clipboard/clipboard';
+import Clipboard from "@react-native-clipboard/clipboard";
 import { Alert } from "react-native";
 import axios from "axios";
 
 import { Feather } from "@expo/vector-icons";
-import { CopyToClipboard, shrinkAddress } from "../../utils";
+import { shrinkAddress } from "../../utils";
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
   const address = "0x1dd8d38e294d632eab2d445beac8340462db021d";
   const accountName = "Account 1";
   const Balance = "$11.8";
+
+  const CopyToClipboard = (address: string) => {
+    Clipboard.setString(address);
+    Alert.alert("Successfully copied to clipboard");
+  };
 
   return (
     <Flex pt="4">
