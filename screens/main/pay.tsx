@@ -10,7 +10,7 @@ import {
   Text,
   useToast,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../constants/Layout";
 import { shrinkAddress } from "../../utils/utils";
 
@@ -136,7 +136,9 @@ const InfoModal: React.FC<{
       <Modal isOpen={modalVisible} onClose={setModalVisible} size="md">
         <Modal.Content maxH="212">
           <Modal.CloseButton />
-          <Modal.Header>What does this mean?</Modal.Header>
+          <Modal.Header>
+            <Text>What does this mean?</Text>
+          </Modal.Header>
           <Modal.Body>
             <ScrollView>
               <Text>
