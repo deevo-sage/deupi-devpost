@@ -12,7 +12,7 @@ import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Feather } from '@expo/vector-icons';
-import { shrinkAddress, walletFromPhrase } from '../../utils';
+import { getProvider, shrinkAddress, walletFromPhrase } from '../../utils';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking } from 'react-native';
 import { ethers } from 'ethers';
@@ -90,36 +90,30 @@ const Transactions = ({ address }) => {
     transfers: ['external', 'internal', 'token'],
     params: [
       {
-        fromBlock: '0x1837271',
+        fromBlock: '0xd7424d',
         maxCount: '0x5',
         fromAddress: '0x1Dd8D38e294D632Eab2d445beAc8340462db021d',
         // toAddress: address,
         // toAddress: address,
         excludeZeroValue: false,
-        category: ['token'],
+        category: ['external'],
       },
     ],
   };
 
   var config = {
-    method: 'post',
-    url: 'https://polygon-mumbai.g.alchemy.com/v2/shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    url: 'https://eth-mainnet.alchemyapi.io/v2/GamugAUazA5YnYqAEYtXZji3lNU2rg3A',
     data: data,
   };
+  const [transaction, setTransaction] = useState([]);
   async function GetTransaction() {
-    const provider = new ethers.providers.AlchemyProvider(
-      'maticmum',
-      'shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m',
-    );
+    const provider = getProvider('maticmum');
     const wallet = walletFromPhrase(provider, '');
-    // provider.
     await axios
       .post(config.url, config.data)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        setTransaction(response.data?.result?.transaction || []);
       })
       .catch(function (error) {
         console.log(error);
@@ -130,8 +124,10 @@ const Transactions = ({ address }) => {
     GetTransaction();
   }, []);
 
-  const [x, setX] = useState('peepee ');
   return <Flex w="100%" h="100%"></Flex>;
+};
+const Transaction: FC<{}> = () => {
+  return <Flex></Flex>;
 };
 const UtilButtons = () => {
   const [sheet, setSheet] = useState(false);
