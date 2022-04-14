@@ -75,9 +75,9 @@ export const TermsFooter = () => {
 };
 export const MetaMaskText: FC<MetaMaskTextProps> = ({ children }) => {
   return (
-    <Flex h="50" align={'center'} w="100%">
+    <Flex mt="8" align={'center'} w="100%">
       <Text fontFamily="mono" letterSpacing={'2xl'} fontWeight="semibold">
-        METAMASK
+        DeUPI
       </Text>
     </Flex>
   );

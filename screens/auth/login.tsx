@@ -1,5 +1,5 @@
 import React, { FC, Suspense, useRef, useState } from 'react';
-import { Button, Flex, Link, Switch, Text } from 'native-base';
+import { Button, Flex, Link, Switch, Text, View } from 'native-base';
 import { Canvas, useFrame } from '@react-three/fiber';
 import Layout from '../../constants/Layout';
 import { SafeInput } from './import';
@@ -9,15 +9,15 @@ export const Login: FC<LoginProps> = ({}) => {
   const [bio, setBio] = useState(true);
   return (
     <Flex align={'center'}>
-      <Flex h={Layout.window.height / 3} pt="32">
+      <View h={Layout.window.height / 4} pt="16">
         <Suspense fallback="sad">
-          <Canvas>
+          <Canvas style={{ width: 400 }}>
             <ambientLight intensity={1} />
             <pointLight position={[10, 10, 10]} />
             <Sphere position={[0, 0, 0]} />
           </Canvas>
         </Suspense>
-      </Flex>
+      </View>
       <Flex maxW={'650'} w="100%" align={'center'} pt="10">
         <Text fontSize={'4xl'} fontWeight="bold">
           Welcome Back!

@@ -6,6 +6,7 @@ import {
   Input,
   Link,
   Pressable,
+  ScrollView,
   Switch,
   Text,
   WarningOutlineIcon,
@@ -24,65 +25,67 @@ export const Import: FC<ImportProps> = ({}) => {
   return (
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
-      <Flex h="12" justify={'flex-end'} align={'center'}>
-        <Text fontSize={'xl'} fontWeight="bold">
-          Import from seed
-        </Text>
-      </Flex>
-      <Flex align={'center'} mt="4" flex={1}>
-        <SafeInput
-          value={Phrase}
-          onChangeText={(val) => setPhrase(val)}
-          showHide
-          heading="Secret Recovery Phrase"
-          placeholder="Enter your Secret Recovery Phrase"
-        />
-        <SafeInput
-          value={Pass}
-          onChangeText={(val) => setPass(val)}
-          showHide
-          mt="4"
-          heading="New Password"
-          placeholder="Enter your Secret Recovery Phrase"
-        />
-        <SafeInput
-          value={CPass}
-          onChangeText={(val) => setCPass(val)}
-          mt="4"
-          initVal
-          heading="Confirm Password"
-          placeholder="Enter your Secret Recovery Phrase"
-          helper="Must be at least 8 characters"
-        />
-      </Flex>
-      <Flex flex={1} align={'center'}>
-        <Flex w="80%" mt="10">
-          <Text color={'purple.200'} fontWeight="semibold">
-            Unlock with Biometric?
+      <ScrollView>
+        <Flex h="12" justify={'flex-end'} align={'center'}>
+          <Text fontSize={'xl'} fontWeight="bold">
+            Import from seed
           </Text>
-          <Switch
-            value={Biometric}
-            colorScheme="blue"
-            size={6}
-            mt="2"
-            onValueChange={(val) => setBiometric(val)}
-          ></Switch>
         </Flex>
-        <Button
-          isDisabled={
-            Pass === '' || CPass === '' || Phrase === '' || CPass !== Pass
-          }
-          borderRadius={'full'}
-          py="3"
-          w="80%"
-          colorScheme={'blue'}
-          mt="8"
-          onPress={() => nav.navigate('Congo')}
-        >
-          <Text fontWeight={'semibold'}>Import</Text>
-        </Button>
-      </Flex>
-      <TermsFooter />
+        <Flex align={'center'} mt="4" flex={1}>
+          <SafeInput
+            value={Phrase}
+            onChangeText={(val) => setPhrase(val)}
+            showHide
+            heading="Secret Recovery Phrase"
+            placeholder="Enter your Secret Recovery Phrase"
+          />
+          <SafeInput
+            value={Pass}
+            onChangeText={(val) => setPass(val)}
+            showHide
+            mt="4"
+            heading="New Password"
+            placeholder="Enter your Secret Recovery Phrase"
+          />
+          <SafeInput
+            value={CPass}
+            onChangeText={(val) => setCPass(val)}
+            mt="4"
+            initVal
+            heading="Confirm Password"
+            placeholder="Enter your Secret Recovery Phrase"
+            helper="Must be at least 8 characters"
+          />
+        </Flex>
+        <Flex flex={1} align={'center'}>
+          <Flex w="80%" mt="10">
+            <Text color={'purple.200'} fontWeight="semibold">
+              Unlock with Biometric?
+            </Text>
+            <Switch
+              value={Biometric}
+              colorScheme="blue"
+              size={6}
+              mt="2"
+              onValueChange={(val) => setBiometric(val)}
+            ></Switch>
+          </Flex>
+          <Button
+            isDisabled={
+              Pass === '' || CPass === '' || Phrase === '' || CPass !== Pass
+            }
+            borderRadius={'full'}
+            py="3"
+            w="80%"
+            colorScheme={'blue'}
+            mt="8"
+            onPress={() => nav.navigate('Congo')}
+          >
+            <Text fontWeight={'semibold'}>Import</Text>
+          </Button>
+        </Flex>
+        <TermsFooter />
+      </ScrollView>
     </Flex>
   );
 };
