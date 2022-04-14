@@ -3,10 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import * as React from "react";
 import { Congo, Import, Login, Signup } from "../screens/auth";
-import { Home } from "../screens/main";
+import { Home, Pay } from "../screens/main";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../utils/types";
 // import LinkingConfiguration from "./LinkingConfiguration";
+
 const config = {
   useSystemColorMode: false,
   initialColorMode: "dark",
@@ -32,7 +33,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Pay"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
@@ -54,6 +55,13 @@ function RootNavigator() {
           headerShown: true,
           headerTitle: "",
           headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="Pay"
+        component={Pay}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen
