@@ -34,7 +34,7 @@ export const Home: FC<HomeProps> = ({}) => {
 
   useEffect(() => {
     (async () => {
-      const provider = getProvider();
+      const provider = getProvider(chain);
       const mnemonic = await AsyncStorage.getItem('phrase');
       if (mnemonic) {
         const wallet = walletFromPhrase(provider, mnemonic);
@@ -53,7 +53,7 @@ export const Home: FC<HomeProps> = ({}) => {
         nav.navigate('Signup');
       }
     })();
-  }, []);
+  }, [chain]);
   return (
     <Flex pt="4" height={'100%'}>
       <Flex align={'center'}>
