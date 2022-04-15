@@ -26,6 +26,7 @@
     "expo-barcode-scanner": "^11.2.1",
     "expo-camera": "^12.1.2",
     "expo-constants": "~13.0.0",
+    "expo-dev-client": "~0.8.4",
     "expo-font": "~10.0.4",
     "expo-gl": "^11.1.2",
     "expo-linking": "~3.0.0",
