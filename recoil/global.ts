@@ -10,7 +10,6 @@ export const Chain = atom<Chains>({
   key: "chain",
 });
 export const phraseAtom = atom<string | undefined>({
-  default:
-    "wolf better side problem train person turkey render canoe civil crazy gravity",
+  default: undefined,
   key: "phrase",
 });
