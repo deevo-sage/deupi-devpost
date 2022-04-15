@@ -52,6 +52,7 @@ export const Import: FC<ImportProps> = ({}) => {
             mt="4"
             heading="New Password"
             placeholder="Enter your Secret Recovery Phrase"
+            warning="Haha"
           />
           <SafeInput
             value={CPass}
@@ -121,6 +122,7 @@ interface SafeInputProps {
   heading?: string;
   mt?: string;
   helper?: string;
+  warning?: string;
 }
 export const SafeInput: FC<SafeInputProps> = ({
   value,
@@ -131,6 +133,7 @@ export const SafeInput: FC<SafeInputProps> = ({
   heading,
   mt = 4,
   helper,
+  warning,
 }) => {
   const [hide, setHide] = useState(initVal || showHide);
 
@@ -163,11 +166,15 @@ export const SafeInput: FC<SafeInputProps> = ({
         onChangeText={onChangeText}
         value={value}
       />
+
       <FormControl.HelperText>
         <Text color={"purple.200"} fontWeight="600" fontSize={"sm"}>
           {helper}
         </Text>
       </FormControl.HelperText>
+      {/* <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+        Try different from previous passwords.
+      </FormControl.ErrorMessage> */}
     </FormControl>
   );
 };
