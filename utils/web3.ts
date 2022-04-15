@@ -45,6 +45,25 @@ export const ABI = [
     type: 'event',
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'x',
+        type: 'string',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'y',
+        type: 'uint256',
+      },
+    ],
+    name: 'Payment',
+    type: 'event',
+  },
+  {
     inputs: [],
     name: 'owner',
     outputs: [
@@ -58,10 +77,35 @@ export const ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'to',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: 'val',
+        type: 'uint256',
+      },
+    ],
+    name: 'pay',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'retrieve',
+    outputs: [],
+    stateMutability: 'payable',
     type: 'function',
   },
   {
