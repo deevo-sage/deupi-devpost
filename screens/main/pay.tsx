@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ethers, Wallet } from 'ethers';
 import {
   Button,
   Flex,
@@ -11,9 +12,10 @@ import {
   Text,
   useToast,
 } from 'native-base';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SelectModal from '../../components/SelectModal';
 import Layout from '../../constants/Layout';
+import { getProvider, walletFromPhrase } from '../../utils';
 import { RootStackParamList } from '../../utils/types';
 import { chainToName, shrinkAddress } from '../../utils/utils';
 
@@ -41,7 +43,37 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
     MATIC: 'MATIC',
     ETH: 'ETH',
   };
+  const sendTrasaction = async (to_address: string, val: string) => {
+    const mne = '';
+    const gas_limit = 100000;
+    const provider = getProvider('maticmum');
+    const wallet = walletFromPhrase(provider, mne);
+    const tx = {
+      from: wallet?.address,
+      to: to_address,
+      value: ethers.utils.parseEther(val),
+      nonce: await provider.getTransactionCount(
+        wallet?.address || '',
+        'latest',
+      ),
+      // gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+      // gasPrice: ethers.utils.hexlify(gas_limit / 10),
+    };
+    console.log(tx);
+    if (wallet)
+      wallet
+        .sendTransaction(tx)
+        .then(async (transaction) => {
+          console.log(transaction);
+          await transaction.wait();
 
+          alert('Send finished!');
+        })
+        .catch((err) => console.log(err));
+  };
+  // useEffect(() => {
+  //   sendTrasaction(toPay, '0.001');
+  // }, []);
   return (
     <Flex p={5} h="full" align="center" justify="space-between">
       <Flex align="center">
