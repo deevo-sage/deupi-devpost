@@ -1,59 +1,88 @@
 import {
   Actionsheet,
   Avatar,
-  Button,
   Divider,
   Flex,
-  Icon,
-  IconButton,
   Pressable,
   Text,
   View,
 } from 'native-base';
+import '@ethersproject/shims';
 import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { LogBox } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { getProvider, shrinkAddress, walletFromPhrase } from '../../utils';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking, ScrollView } from 'react-native';
-import { ethers } from 'ethers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Chain } from '../../recoil';
+import { ethers } from 'ethers';
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
-  // const address = '0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806';
   const [address, setAddress] = useState<string>('');
   const [balance, setBalance] = useState<string>('');
-  const [chain, setChain] = useRecoilState(Chain);
+  const chain = useRecoilValue(Chain);
+  const [mne, setmne] = useState('');
   const nav = useNavigation();
   const accountName = 'Account 1';
+  const init = async () => {
+    AsyncStorage.getItem('phrase')
+      .then(async (mnemonic) => {
+        if (mnemonic) setmne(mnemonic || '');
+        else {
+          await AsyncStorage.removeItem('phrase');
+          await AsyncStorage.removeItem('password');
+          nav.navigate('Signup');
+        }
+      })
+      .catch((err) => console.log({ err }));
+  };
+
+  const getBalance = async (wallet?: ethers.Wallet, address?: string) => {
+    if (address) {
+      await wallet
+        ?.getBalance()
+        .then((bal: ethers.BigNumber) => {
+          let balance: any = bal;
+          if (balance) {
+            const divisor = ethers.BigNumber.from(1e15 + 0.0);
+            balance = balance.div(divisor).toNumber();
+            balance = balance / 1000;
+          }
+          const val =
+            chain === 'matic' || chain === 'maticmum' ? 'MATIC' : 'ETH';
+          setBalance((balance?.toString() || '0.000') + ' ' + val);
+        })
+        .catch((err) => {
+          console.log(err);
+          const val =
+            chain === 'matic' || chain === 'maticmum' ? 'MATIC' : 'ETH';
+          setBalance('0.000' + ' ' + val);
+        });
+    }
+  };
+  const onMnemonicChange = async () => {
+    const provider = getProvider(chain);
+    const wallet = walletFromPhrase(provider, mne);
+    setAddress(wallet?.address || '');
+    getBalance(wallet, wallet?.address);
+    if (!wallet) {
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      const provider = getProvider(chain);
-      const mnemonic = await AsyncStorage.getItem('phrase');
-      if (mnemonic) {
-        const wallet = walletFromPhrase(provider, mnemonic);
-        setAddress(wallet?.address || '');
-        let balance: any = await wallet?.getBalance();
-        if (balance) {
-          balance = balance.div(BigInt(1e15 + 0.0)).toNumber();
-          balance = balance / 1000;
-        }
-        const val = chain === 'matic' || chain === 'maticmum' ? 'MATIC' : 'ETH';
-        setBalance((balance?.toString() || '0.000') + ' ' + val);
-        // console.log(wallet?.address);
-      } else {
-        await AsyncStorage.removeItem('phrase');
-        await AsyncStorage.removeItem('password');
-        nav.navigate('Signup');
-      }
-    })();
-  }, [chain]);
+    LogBox.ignoreLogs(['Setting a timer']);
+    init();
+  }, []);
+  useEffect(() => {
+    if (mne) {
+      onMnemonicChange();
+    }
+  }, [mne, chain]);
   return (
     <Flex pt="4" height={'100%'}>
       <Flex align={'center'}>

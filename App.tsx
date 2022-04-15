@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import '@ethersproject/shims';
+
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {} from 'expo';
 import useCachedResources from './hooks/useCachedResources';
@@ -12,12 +14,12 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <RecoilRoot>
+      <RecoilRoot initializeState={undefined}>
+        <SafeAreaProvider>
           <Navigation />
           <StatusBar />
-        </RecoilRoot>
-      </SafeAreaProvider>
+        </SafeAreaProvider>
+      </RecoilRoot>
     );
   }
 }

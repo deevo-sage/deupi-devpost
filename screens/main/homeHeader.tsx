@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import { Pressable } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { Chain } from '../../recoil';
-import { providers } from '../../utils';
+import { provider as prov } from '../../utils';
 import { Chains } from '../../utils/types';
 
 interface HomeHeaderProps {}
@@ -12,7 +12,7 @@ interface HomeHeaderProps {}
 export const HomeHeader: FC<HomeHeaderProps> = ({}) => {
   const [chain, setChain] = useRecoilState(Chain);
   const [modalOpen, setModalOpen] = useState(false);
-  const chainToName = (chain) => {
+  const chainToName = (chain: any) => {
     if (chain === 'matic') return 'Polygon';
     else if (chain === 'maticmum') return 'Polygon Mumbai';
     else if (chain === 'homestead') return 'Ethereum';
@@ -21,7 +21,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({}) => {
     setModalOpen(false);
   };
   return (
-    <Flex mt="4" align="center" h="10">
+    <Flex pt="12" align="center" h="24" bg="black">
       <Text fontSize={'lg'} fontWeight="600">
         Wallet
       </Text>
@@ -50,7 +50,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({}) => {
           <ChainName check i={0}>
             {chainToName(chain)} Network
           </ChainName>
-          {Object.keys(providers)
+          {Object.keys(prov)
             .filter((item) => item !== chain)
             .map((item, i) => {
               return (
