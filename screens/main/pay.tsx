@@ -196,6 +196,7 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
         py="3"
         maxW={"500"}
         colorScheme="blue"
+        isDisabled={amt === NaN || !amt}
         borderRadius={"full"}
         mt="4"
         w="50%"
