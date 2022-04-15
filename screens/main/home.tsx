@@ -80,7 +80,7 @@ export const Home: FC<HomeProps> = ({}) => {
         <Text mb="2" fontSize={"xl"} fontWeight="semibold">
           {accountName}
         </Text>
-        <Text mb="4" h="8" fontSize={"sm"}>
+        <Text h="8" fontSize={"sm"}>
           {balance}
         </Text>
         <Pressable>
@@ -167,13 +167,9 @@ const Transactions: FC<{ address: string }> = ({ address }) => {
     data: data,
   };
   const [transaction, setTransaction] = useState<ethTransaction[]>([]);
+  const [chain, setChain] = useRecoilState(Chain);
   async function GetTransaction() {
-    const provider = getProvider("maticmum");
-    const wallet = walletFromPhrase(
-      provider,
-      "wolf better side problem train person turkey render canoe civil crazy gravity"
-    );
-    await axios
+    axios
       .post(config.url, { ...config.data, params: [params[0]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -184,7 +180,7 @@ const Transactions: FC<{ address: string }> = ({ address }) => {
       .catch(function (error) {
         console.log(error);
       });
-    await axios
+    axios
       .post(config.url, { ...config.data, params: [params[1]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -197,22 +193,29 @@ const Transactions: FC<{ address: string }> = ({ address }) => {
       });
   }
   useEffect(() => {
-    if (address) GetTransaction();
-  }, [address]);
+    if (address && chain === "homestead" && transaction.length === 0)
+      GetTransaction();
+    else {
+    }
+  }, [address, chain]);
   return (
     <ScrollView>
       <Flex w="100%" bgColor={"gray.900"} h="100%">
-        {transaction
-          .sort((a, b) => Number(b.blockNum) - Number(a.blockNum))
-          .map((item, i) => {
-            return (
-              <Transaction
-                key={i + "transactions"}
-                data={item}
-                mine={item.from.toLowerCase() === address.toLowerCase()}
-              />
-            );
-          })}
+        {chain === "homestead" ? (
+          transaction
+            .sort((a, b) => Number(b.blockNum) - Number(a.blockNum))
+            .map((item, i) => {
+              return (
+                <Transaction
+                  key={i + "transactions"}
+                  data={item}
+                  mine={item.from.toLowerCase() === address.toLowerCase()}
+                />
+              );
+            })
+        ) : (
+          <></>
+        )}
       </Flex>
     </ScrollView>
   );
