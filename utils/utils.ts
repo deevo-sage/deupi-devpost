@@ -8,3 +8,9 @@ export const debounce = (fn: any, ms: number) => {
 
 export const shrinkAddress = (s: string) =>
   s.substring(0, 6) + "..." + s.substring(s.length - 4);
+
+export const chainToName = (chain: any) => {
+  if (chain === "matic") return "Polygon";
+  else if (chain === "maticmum") return "Polygon Mumbai";
+  else if (chain === "homestead") return "Ethereum";
+};
