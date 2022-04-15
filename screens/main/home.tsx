@@ -31,6 +31,7 @@ export const Home: FC<HomeProps> = ({}) => {
       const mnemonic = await AsyncStorage.getItem('phrase');
       if (mnemonic) {
         const wallet = walletFromPhrase(provider, mnemonic);
+      } else {
       }
     })();
   }, []);
