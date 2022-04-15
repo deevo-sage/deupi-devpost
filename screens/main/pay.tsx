@@ -378,9 +378,7 @@ const PayModal: React.FC<{
             />
             <InfoRow
               text1="To"
-              text2={
-                method === "CRYPTO" ? shrinkAddress(toPay || "") : "UPI_ID"
-              }
+              text2={method === "CRYPTO" ? shrinkAddress(toPay || "") : toPay}
               border={false}
             />
             <InfoRow
