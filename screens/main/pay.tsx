@@ -67,7 +67,37 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
 
     setIsOpenPay(true);
   };
+  const sendTrasaction = async (to_address: string, val: string) => {
+    const mne = phrase || "";
+    const gas_limit = 100000;
+    const provider = getProvider("maticmum");
+    const wallet = walletFromPhrase(provider, mne);
+    const tx = {
+      from: wallet?.address,
+      to: to_address,
+      value: ethers.utils.parseEther(val),
+      nonce: await provider.getTransactionCount(
+        wallet?.address || "",
+        "latest"
+      ),
+      // gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+      // gasPrice: ethers.utils.hexlify(gas_limit / 10),
+    };
+    console.log(tx);
+    if (wallet)
+      wallet
+        .sendTransaction(tx)
+        .then(async (transaction) => {
+          console.log(transaction);
+          await transaction.wait();
 
+          alert("Send finished!");
+        })
+        .catch((err) => console.log(err));
+  };
+  // useEffect(() => {
+  //   sendTrasaction(toPay, '0.001');
+  // }, []);
   return (
     <Flex p={5} h="full" align="center" justify="space-between">
       <Flex align="center">
