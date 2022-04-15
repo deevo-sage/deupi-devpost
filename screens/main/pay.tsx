@@ -73,16 +73,19 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
                 To
               </Text>
 
-              <Icon mx={1} as={Feather} size="md" name="box"></Icon>
-              {/* <Avatar
-                mx={1}
-                size="sm"
-                bg="black"
-                p={2}
-                source={{
-                  uri: "https://symbols.getvecta.com/stencil_99/27_upi-icon.5c435dac48.svg",
-                }}
-              /> */}
+              {method === "CRYPTO" ? (
+                <Icon mx={1} as={Feather} size="20px" name="box"></Icon>
+              ) : (
+                <Avatar
+                  mx={1}
+                  p="auto"
+                  size="20px"
+                  bg="red"
+                  source={{
+                    uri: "https://symbols.getvecta.com/stencil_99/27_upi-icon.5c435dac48.svg",
+                  }}
+                />
+              )}
               <Text
                 mr={2}
                 fontSize="xl"
