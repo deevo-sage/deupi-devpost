@@ -31,7 +31,7 @@ export const Import: FC<ImportProps> = ({}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const nav = useNavigation();
   const toast = useToast();
-  const setMnemonic = useSetRecoilState(phraseAtom);
+  const [mnemonic, setMnemonic] = useRecoilState(phraseAtom);
 
   return (
     <Flex w="100%" h="100%" px="2">
@@ -118,6 +118,7 @@ export const Import: FC<ImportProps> = ({}) => {
                 AsyncStorage.setItem("password", Pass);
                 AsyncStorage.setItem("phrase", Phrase);
                 setMnemonic(Phrase);
+                console.log(mnemonic);
 
                 nav.navigate("Congo");
               } else {

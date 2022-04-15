@@ -1,5 +1,7 @@
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ethers } from "ethers";
 import {
   Avatar,
   Button,
@@ -12,9 +14,12 @@ import {
   Text,
   useToast,
 } from "native-base";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import { useRecoilValue } from "recoil";
 import SelectModal from "../../components/SelectModal";
 import Layout from "../../constants/Layout";
+import { phraseAtom } from "../../recoil";
+import { getProvider, walletFromPhrase } from "../../utils";
 import { RootStackParamList } from "../../utils/types";
 import { chainToName, shrinkAddress } from "../../utils/utils";
 
@@ -25,12 +30,23 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
   const toast = useToast();
   const [toPay, setToPay] = useState(route.params.toPay);
   const method = route.params.receiverAccepts;
+  // let phrase, provider, wallet;
+  const phrase = useRecoilValue(phraseAtom);
+  const provider = useMemo(() => getProvider("matic"), []);
+  const wallet = useMemo(() => walletFromPhrase(provider, phrase || ""), []);
+
+  // console.log(phrase, provider, wallet);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isOpenPay, setIsOpenPay] = useState(false);
 
   const onClose = () => {
     setModalOpen(false);
+  };
+
+  const onClosePay = () => {
+    setIsOpenPay(false);
   };
 
   const [options, setOptions] = useState({
@@ -43,6 +59,13 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
     INR: "₹",
     MATIC: "MATIC",
     ETH: "ETH",
+  };
+
+  const resolvePay = () => {
+    const balance = wallet?.getBalance();
+    const amount = ethers.utils.parseEther(`${amt || 0}`);
+
+    setIsOpenPay(true);
   };
 
   return (
@@ -200,6 +223,9 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
         borderRadius={"full"}
         mt="4"
         w="50%"
+        onPress={() => {
+          resolvePay();
+        }}
       >
         <Text fontWeight={"bold"}>
           Pay{" "}
@@ -214,6 +240,19 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
               ]}
         </Text>
       </Button>
+      <PayModal
+        modalVisible={isOpenPay}
+        setModalVisible={onClosePay}
+        toPay={toPay}
+        method={method}
+        address={wallet?.address}
+        amount={amt || 0}
+        crypto={
+          (symbols as any)[
+            Object.keys(options).filter((e: any) => (options as any)[e])[0]
+          ]
+        }
+      />
     </Flex>
   );
 };
@@ -245,5 +284,124 @@ const InfoModal: React.FC<{
         </Modal.Content>
       </Modal>
     </>
+  );
+};
+
+// @ts-nocheck
+const PayModal: React.FC<{
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  toPay: string | undefined;
+  method: "UPI" | "CRYPTO" | undefined;
+  address: string | undefined;
+  amount: number;
+  crypto: string;
+}> = ({
+  modalVisible,
+  setModalVisible,
+  toPay,
+  method,
+  address,
+  amount,
+  crypto,
+}) => {
+  // const [modalVisible, setModalVisible] = React.useState(false);
+  const nav = useNavigation();
+  return (
+    <>
+      <Modal isOpen={modalVisible} onClose={setModalVisible} size="md">
+        <Modal.Content maxH="512">
+          <Modal.CloseButton />
+          <Modal.Header>
+            <Text>Review Payment</Text>
+          </Modal.Header>
+          <Modal.Body>
+            {/* <ScrollView> */}
+            <InfoRow
+              text1="From"
+              text2={shrinkAddress(address || "")}
+              border={false}
+            />
+            <InfoRow
+              text1="To"
+              text2={method === "UPI" ? shrinkAddress(toPay || "") : ""}
+              border={false}
+            />
+            <InfoRow
+              text1="Amount"
+              text2={`${amount} ${crypto}`}
+              border={false}
+            />
+            {/* </ScrollView> */}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              colorScheme={"blue"}
+              py="3"
+              mt="4"
+              mx="2"
+              maxW={"500"}
+              borderRadius={"full"}
+              borderColor={"blue.500"}
+              borderWidth="2"
+              variant={"outline"}
+              // w="80%"
+              onPress={() => {
+                nav.navigate("Home");
+              }}
+            >
+              <Text color="blue.500" fontWeight={"bold"}>
+                Cancel
+              </Text>
+            </Button>
+            <Button
+              py="3"
+              maxW={"500"}
+              colorScheme="blue"
+              // isDisabled={amt === NaN || !amt}
+              borderRadius={"full"}
+              mt="4"
+              w="50%"
+              onPress={() => {
+                // console.log("hi");
+              }}
+            >
+              <Text fontWeight={"bold"}>Sign Transaction</Text>
+            </Button>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+    </>
+  );
+};
+
+const InfoRow: React.FC<{
+  text1?: string;
+  text2?: string;
+  border?: boolean;
+}> = ({ text1, text2, border = true }) => {
+  return (
+    <Flex
+      // position="absolute"
+      // border="1px solid red"
+      borderWidth="1px"
+      p={2}
+      // float="left"
+      rounded="full"
+      borderStyle={border ? "solid" : "none"}
+      // borderColor={"gray.500"}
+      direction="row"
+      flex="1"
+      align="center"
+      justify="center"
+    >
+      <Text mx={2} fontSize="lg" color="gray.400" fontWeight="semibold">
+        {text1}
+      </Text>
+
+      <Text mr={2} fontSize="xl" fontWeight="semibold" fontFamily="UbuntuMono">
+        {text2}
+      </Text>
+    </Flex>
   );
 };

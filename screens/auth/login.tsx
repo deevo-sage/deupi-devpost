@@ -5,6 +5,8 @@ import Layout from "../../constants/Layout";
 import { SafeInput } from "./import";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSetRecoilState } from "recoil";
+import { phraseAtom } from "../../recoil";
 
 interface LoginProps {}
 
@@ -12,11 +14,15 @@ export const Login: FC<LoginProps> = ({}) => {
   const [bio, setBio] = useState(true);
   const nav = useNavigation();
   const [pass, setPass] = useState<string | undefined>();
+  const setMnemonic = useSetRecoilState(phraseAtom);
 
   const resolveLogin = (pass: string | undefined) => {
-    AsyncStorage.getItem("password").then((e) => {
-      if (e === pass) nav.navigate("Home");
-      else
+    AsyncStorage.getItem("password").then(async (e) => {
+      if (e === pass) {
+        const p = await AsyncStorage.getItem("phrase");
+        setMnemonic(p || "");
+        nav.navigate("Home");
+      } else
         toast.show({ title: "Incorrect Password", description: "Try Again" });
     });
   };
