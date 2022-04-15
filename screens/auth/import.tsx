@@ -1,6 +1,6 @@
 // import AsyncStorageLib from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Button,
   Flex,
@@ -8,22 +8,22 @@ import {
   Input,
   Link,
   Pressable,
-  ScrollView,
   Switch,
   Text,
   WarningOutlineIcon,
-} from "native-base";
-import React, { FC, useEffect, useState } from "react";
-import { MetaMaskText, TermsFooter } from "./signup";
-import { ethers } from "ethers";
-import { walletFromPhrase } from "../../utils";
+} from 'native-base';
+import React, { FC, useEffect, useState } from 'react';
+import { MetaMaskText, TermsFooter } from './signup';
+import { ethers } from 'ethers';
+import { walletFromPhrase } from '../../utils';
+import { ScrollView } from 'react-native';
 
 interface ImportProps {}
 
 export const Import: FC<ImportProps> = ({}) => {
-  const [Phrase, setPhrase] = useState<string>("");
-  const [Pass, setPass] = useState<string>("");
-  const [CPass, setCPass] = useState<string>("");
+  const [Phrase, setPhrase] = useState<string>('');
+  const [Pass, setPass] = useState<string>('');
+  const [CPass, setCPass] = useState<string>('');
   const [Biometric, setBiometric] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const nav = useNavigation();
@@ -32,12 +32,12 @@ export const Import: FC<ImportProps> = ({}) => {
     <Flex w="100%" h="100%" px="2">
       <MetaMaskText />
       <ScrollView>
-        <Flex h="12" justify={"flex-end"} align={"center"}>
-          <Text fontSize={"xl"} fontWeight="bold">
+        <Flex h="12" justify={'flex-end'} align={'center'}>
+          <Text fontSize={'xl'} fontWeight="bold">
             Import from seed
           </Text>
         </Flex>
-        <Flex align={"center"} mt="4" flex={1}>
+        <Flex align={'center'} mt="4" flex={1}>
           <SafeInput
             value={Phrase}
             onChangeText={(val) => setPhrase(val)}
@@ -64,9 +64,9 @@ export const Import: FC<ImportProps> = ({}) => {
             helper="Must be at least 8 characters"
           />
         </Flex>
-        <Flex flex={1} align={"center"}>
+        <Flex align={'center'}>
           <Flex w="80%" mt="10">
-            <Text color={"purple.200"} fontWeight="semibold">
+            <Text color={'purple.200'} fontWeight="semibold">
               Unlock with Biometric?
             </Text>
             <Switch
@@ -79,33 +79,33 @@ export const Import: FC<ImportProps> = ({}) => {
           </Flex>
           <Button
             isDisabled={
-              Pass === "" || CPass === "" || Phrase === "" || CPass !== Pass
+              Pass === '' || CPass === '' || Phrase === '' || CPass !== Pass
             }
-            borderRadius={"full"}
+            borderRadius={'full'}
             py="3"
             w="80%"
             isLoading={loading}
-            colorScheme={"blue"}
+            colorScheme={'blue'}
             mt="8"
             onPress={async () => {
               // console.log(wallet)
               setLoading(true);
               // nav.navigate("Congo");
               const provider = new ethers.providers.AlchemyProvider(
-                "maticmum",
-                "shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m"
+                'maticmum',
+                'shDMEU7o9LPri4A4dpwR7wDGAyTTOi1m',
               );
               // AsyncStorage.setItem
               if (ethers.utils.isValidMnemonic(Phrase)) {
                 const { address } = walletFromPhrase(provider, Phrase);
-                AsyncStorage.setItem("password", Pass);
-                AsyncStorage.setItem("phrase", Phrase);
+                AsyncStorage.setItem('password', Pass);
+                AsyncStorage.setItem('phrase', Phrase);
 
-                nav.navigate("Congo");
+                nav.navigate('Congo');
               }
             }}
           >
-            <Text fontWeight={"semibold"}>Import</Text>
+            <Text fontWeight={'semibold'}>Import</Text>
           </Button>
         </Flex>
         <TermsFooter />
@@ -141,10 +141,10 @@ export const SafeInput: FC<SafeInputProps> = ({
     <FormControl w="80%" mt={mt}>
       <FormControl.Label>
         <Flex w="100%" direction="row" justify="space-between">
-          <Text fontWeight={"semibold"}>{heading}</Text>
+          <Text fontWeight={'semibold'}>{heading}</Text>
           {showHide ? (
             <Pressable onPress={() => setHide((prev) => !prev)}>
-              <Text fontWeight={"semibold"}>{hide ? "Show" : "Hide"}</Text>
+              <Text fontWeight={'semibold'}>{hide ? 'Show' : 'Hide'}</Text>
             </Pressable>
           ) : (
             <></>
@@ -153,22 +153,22 @@ export const SafeInput: FC<SafeInputProps> = ({
       </FormControl.Label>
       <Input
         mt="2"
-        focusOutlineColor={"blue.500"}
+        focusOutlineColor={'blue.500'}
         _focus={{
-          borderColor: "blue.500",
-          focusOutlineColor: "blue.500",
-          _hover: { borderColor: "blue.500", focusOutlineColor: "blue.500" },
+          borderColor: 'blue.500',
+          focusOutlineColor: 'blue.500',
+          _hover: { borderColor: 'blue.500', focusOutlineColor: 'blue.500' },
         }}
-        _hover={{ borderColor: "blue.500", focusOutlineColor: "blue.500" }}
+        _hover={{ borderColor: 'blue.500', focusOutlineColor: 'blue.500' }}
         h="12"
-        type={!hide ? "text" : "password"}
+        type={!hide ? 'text' : 'password'}
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
       />
 
       <FormControl.HelperText>
-        <Text color={"purple.200"} fontWeight="600" fontSize={"sm"}>
+        <Text color={'purple.200'} fontWeight="600" fontSize={'sm'}>
           {helper}
         </Text>
       </FormControl.HelperText>

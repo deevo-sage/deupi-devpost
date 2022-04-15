@@ -34,6 +34,7 @@ export const Home: FC<HomeProps> = ({}) => {
         const wallet = walletFromPhrase(provider, mnemonic);
         setAddress(wallet?.address);
         // console.log(wallet?.address);
+      } else {
       }
     })();
   }, []);
