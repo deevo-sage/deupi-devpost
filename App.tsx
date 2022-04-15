@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {} from 'expo';
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
+import { RecoilRoot } from 'recoil';
 export default function App() {
   const isLoadingComplete = useCachedResources();
   useEffect(() => {}, []);
@@ -12,8 +13,10 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation />
-        <StatusBar />
+        <RecoilRoot>
+          <Navigation />
+          <StatusBar />
+        </RecoilRoot>
       </SafeAreaProvider>
     );
   }

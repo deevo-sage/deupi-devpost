@@ -1,16 +1,16 @@
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { extendTheme, NativeBaseProvider } from "native-base";
-import * as React from "react";
-import { Congo, Import, Login, Signup } from "../screens/auth";
-import { Home, Pay } from "../screens/main";
-import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList } from "../utils/types";
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { extendTheme, NativeBaseProvider } from 'native-base';
+import * as React from 'react';
+import { Congo, Import, Login, Signup } from '../screens/auth';
+import { Home, Pay } from '../screens/main';
+import NotFoundScreen from '../screens/NotFoundScreen';
+import { RootStackParamList } from '../utils/types';
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 const config = {
   useSystemColorMode: false,
-  initialColorMode: "dark",
+  initialColorMode: 'dark',
 };
 
 const customTheme = extendTheme({ config });
@@ -33,7 +33,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Signup"
+      initialRouteName="Home"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
@@ -53,7 +53,7 @@ function RootNavigator() {
         options={{
           headerShadowVisible: false,
           headerShown: true,
-          headerTitle: "",
+          headerTitle: '',
           headerTransparent: true,
         }}
       />
@@ -70,8 +70,8 @@ function RootNavigator() {
         options={{
           headerShadowVisible: false,
           headerShown: true,
-          headerTitle: "",
-          headerBackTitle: "Back",
+          headerTitle: '',
+          headerBackTitle: 'Back',
           headerTransparent: true,
         }}
       />
@@ -92,7 +92,7 @@ function RootNavigator() {
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
-        options={{ title: "Oops!" }}
+        options={{ title: 'Oops!' }}
       />
     </Stack.Navigator>
   );
