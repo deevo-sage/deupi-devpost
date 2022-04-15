@@ -26,7 +26,7 @@ interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
   // const address = '0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806';
-  const [address, setAddress] = useState<string | undefined>('');
+  const [address, setAddress] = useState<string>('');
   const [balance, setBalance] = useState<string>('');
   const [chain, setChain] = useRecoilState(Chain);
   const nav = useNavigation();
@@ -38,7 +38,7 @@ export const Home: FC<HomeProps> = ({}) => {
       const mnemonic = await AsyncStorage.getItem('phrase');
       if (mnemonic) {
         const wallet = walletFromPhrase(provider, mnemonic);
-        setAddress(wallet?.address);
+        setAddress(wallet?.address || '');
         let balance: any = await wallet?.getBalance();
         if (balance) {
           balance = balance.div(BigInt(1e15 + 0.0)).toNumber();
@@ -100,7 +100,10 @@ export const Home: FC<HomeProps> = ({}) => {
     </Flex>
   );
 };
-const QrScanner = ({ isOpen, onClose }) => {
+const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
     <Actionsheet isOpen={isOpen} onClose={onClose}>
       <Flex backgroundColor={'gray.900'} py="4" w="100%" align={'center'}>
@@ -127,7 +130,7 @@ type ethTransaction = {
   category: string;
   rawContract: { value: string; address: string | null; decimal: string };
 };
-const Transactions = ({ address }) => {
+const Transactions: FC<{ address: string }> = ({ address }) => {
   var params = [
     {
       fromBlock: '0xd7424d',
@@ -160,93 +163,14 @@ const Transactions = ({ address }) => {
     url: 'https://eth-mainnet.alchemyapi.io/v2/GamugAUazA5YnYqAEYtXZji3lNU2rg3A',
     data: data,
   };
-  const [transaction, setTransaction] = useState<ethTransaction[]>([
-    {
-      blockNum: '0xd9a115',
-      hash: '0x71fd74e37a1652192f3ce09835a59c0e816949c5651e1a919c0a1519ee0a8d56',
-      from: '0x56eddb7aa87536c09ccc2793473599fd21a8b17f',
-      to: '0x1dd8d38e294d632eab2d445beac8340462db021d',
-      value: 0.03877301,
-      erc721TokenId: null,
-      erc1155Metadata: null,
-      tokenId: null,
-      asset: 'ETH',
-      category: 'external',
-      rawContract: {
-        value: '0x89bfd8dfec3400',
-        address: null,
-        decimal: '0x12',
-      },
-    },
-    {
-      blockNum: '0xd7424d',
-      hash: '0x240033967ff85bd2772e52c30cccd9f0df689f3fa5216d20e795115de1d3d63b',
-      from: '0x4976a4a02f38326660d17bf34b431dc6e2eb2327',
-      to: '0x1dd8d38e294d632eab2d445beac8340462db021d',
-      value: 0.10602939,
-      erc721TokenId: null,
-      erc1155Metadata: null,
-      tokenId: null,
-      asset: 'ETH',
-      category: 'external',
-      rawContract: {
-        value: '0x178b12b1eb38c00',
-        address: null,
-        decimal: '0x12',
-      },
-    },
-    {
-      blockNum: '0xd9a906',
-      hash: '0x08f94a494589c35d39d67d31c9410e068915fd15ee0ef8d56cf22df56a533a41',
-      from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
-      to: '0x7f268357a8c2552623316e2562d90e642bb538e5',
-      value: 0.109,
-      erc721TokenId: null,
-      erc1155Metadata: null,
-      tokenId: null,
-      asset: 'ETH',
-      category: 'external',
-      rawContract: {
-        value: '0x1833eec28848000',
-        address: null,
-        decimal: '0x12',
-      },
-    },
-    {
-      blockNum: '0xdbf65d',
-      hash: '0x0186205eef3767c017d7781a3a9353088964ecab955b49346d983921a93e9505',
-      from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
-      to: '0xa5409ec958c83c3f309868babaca7c86dcb077c1',
-      value: 0,
-      erc721TokenId: null,
-      erc1155Metadata: null,
-      tokenId: null,
-      asset: 'ETH',
-      category: 'external',
-      rawContract: { value: '0x0', address: null, decimal: '0x12' },
-    },
-    {
-      blockNum: '0xdbf662',
-      hash: '0x1c2e29adf5e15df2513f21742b40d74b5f7f4dd7c2e487b40f930a697c421d93',
-      from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
-      to: '0x9e8b85dbb082255bd81c5b25323b694bc799a616',
-      value: 0,
-      erc721TokenId: null,
-      erc1155Metadata: null,
-      tokenId: null,
-      asset: 'ETH',
-      category: 'external',
-      rawContract: { value: '0x0', address: null, decimal: '0x12' },
-    },
-  ]);
+  const [transaction, setTransaction] = useState<ethTransaction[]>([]);
   async function GetTransaction() {
     const provider = getProvider('maticmum');
     const wallet = walletFromPhrase(
       provider,
       'wolf better side problem train person turkey render canoe civil crazy gravity',
     );
-    await axios.post(config.url, config.data);
-    axios
+    await axios
       .post(config.url, { ...config.data, params: [params[0]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -257,7 +181,7 @@ const Transactions = ({ address }) => {
       .catch(function (error) {
         console.log(error);
       });
-    axios
+    await axios
       .post(config.url, { ...config.data, params: [params[1]] })
       .then(function (response) {
         setTransaction((prev) => [
@@ -270,8 +194,8 @@ const Transactions = ({ address }) => {
       });
   }
   useEffect(() => {
-    // GetTransaction();
-  }, []);
+    if (address) GetTransaction();
+  }, [address]);
   return (
     <ScrollView>
       <Flex w="100%" bgColor={'gray.900'} h="100%">
@@ -396,3 +320,82 @@ const UtilButton: FC<UtilButtonProps> = ({
     </Pressable>
   );
 };
+const dummyTransactions = [
+  {
+    blockNum: '0xd9a115',
+    hash: '0x71fd74e37a1652192f3ce09835a59c0e816949c5651e1a919c0a1519ee0a8d56',
+    from: '0x56eddb7aa87536c09ccc2793473599fd21a8b17f',
+    to: '0x1dd8d38e294d632eab2d445beac8340462db021d',
+    value: 0.03877301,
+    erc721TokenId: null,
+    erc1155Metadata: null,
+    tokenId: null,
+    asset: 'ETH',
+    category: 'external',
+    rawContract: {
+      value: '0x89bfd8dfec3400',
+      address: null,
+      decimal: '0x12',
+    },
+  },
+  {
+    blockNum: '0xd7424d',
+    hash: '0x240033967ff85bd2772e52c30cccd9f0df689f3fa5216d20e795115de1d3d63b',
+    from: '0x4976a4a02f38326660d17bf34b431dc6e2eb2327',
+    to: '0x1dd8d38e294d632eab2d445beac8340462db021d',
+    value: 0.10602939,
+    erc721TokenId: null,
+    erc1155Metadata: null,
+    tokenId: null,
+    asset: 'ETH',
+    category: 'external',
+    rawContract: {
+      value: '0x178b12b1eb38c00',
+      address: null,
+      decimal: '0x12',
+    },
+  },
+  {
+    blockNum: '0xd9a906',
+    hash: '0x08f94a494589c35d39d67d31c9410e068915fd15ee0ef8d56cf22df56a533a41',
+    from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
+    to: '0x7f268357a8c2552623316e2562d90e642bb538e5',
+    value: 0.109,
+    erc721TokenId: null,
+    erc1155Metadata: null,
+    tokenId: null,
+    asset: 'ETH',
+    category: 'external',
+    rawContract: {
+      value: '0x1833eec28848000',
+      address: null,
+      decimal: '0x12',
+    },
+  },
+  {
+    blockNum: '0xdbf65d',
+    hash: '0x0186205eef3767c017d7781a3a9353088964ecab955b49346d983921a93e9505',
+    from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
+    to: '0xa5409ec958c83c3f309868babaca7c86dcb077c1',
+    value: 0,
+    erc721TokenId: null,
+    erc1155Metadata: null,
+    tokenId: null,
+    asset: 'ETH',
+    category: 'external',
+    rawContract: { value: '0x0', address: null, decimal: '0x12' },
+  },
+  {
+    blockNum: '0xdbf662',
+    hash: '0x1c2e29adf5e15df2513f21742b40d74b5f7f4dd7c2e487b40f930a697c421d93',
+    from: '0x1dd8d38e294d632eab2d445beac8340462db021d',
+    to: '0x9e8b85dbb082255bd81c5b25323b694bc799a616',
+    value: 0,
+    erc721TokenId: null,
+    erc1155Metadata: null,
+    tokenId: null,
+    asset: 'ETH',
+    category: 'external',
+    rawContract: { value: '0x0', address: null, decimal: '0x12' },
+  },
+];
