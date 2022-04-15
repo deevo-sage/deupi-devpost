@@ -18,6 +18,8 @@ import { MetaMaskText, TermsFooter } from "./signup";
 import { ethers } from "ethers";
 import { walletFromPhrase } from "../../utils";
 import { ScrollView } from "react-native";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { phraseAtom } from "../../recoil";
 
 interface ImportProps {}
 
@@ -29,6 +31,7 @@ export const Import: FC<ImportProps> = ({}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const nav = useNavigation();
   const toast = useToast();
+  const setMnemonic = useSetRecoilState(phraseAtom);
 
   return (
     <Flex w="100%" h="100%" px="2">
@@ -114,6 +117,7 @@ export const Import: FC<ImportProps> = ({}) => {
                 const { address } = walletFromPhrase(provider, Phrase);
                 AsyncStorage.setItem("password", Pass);
                 AsyncStorage.setItem("phrase", Phrase);
+                setMnemonic(Phrase);
 
                 nav.navigate("Congo");
               } else {

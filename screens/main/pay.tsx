@@ -1,6 +1,7 @@
-import { Feather } from '@expo/vector-icons';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Feather } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
+  Avatar,
   Button,
   Flex,
   Heading,
@@ -10,19 +11,21 @@ import {
   ScrollView,
   Text,
   useToast,
-} from 'native-base';
-import React, { FC, useState } from 'react';
-import SelectModal from '../../components/SelectModal';
-import Layout from '../../constants/Layout';
-import { RootStackParamList } from '../../utils/types';
-import { chainToName, shrinkAddress } from '../../utils/utils';
+} from "native-base";
+import React, { FC, useState } from "react";
+import SelectModal from "../../components/SelectModal";
+import Layout from "../../constants/Layout";
+import { RootStackParamList } from "../../utils/types";
+import { chainToName, shrinkAddress } from "../../utils/utils";
 
-export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
+export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
   route,
 }) => {
   const [amt, setAmt] = useState<number | undefined>();
   const toast = useToast();
   const [toPay, setToPay] = useState(route.params.toPay);
+  const method = route.params.receiverAccepts;
+
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -37,9 +40,9 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
   });
 
   const symbols = {
-    INR: '₹',
-    MATIC: 'MATIC',
-    ETH: 'ETH',
+    INR: "₹",
+    MATIC: "MATIC",
+    ETH: "ETH",
   };
 
   return (
@@ -70,7 +73,16 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
                 To
               </Text>
 
-              <Icon mx={1} as={Feather} bg="red" size="md" name="box"></Icon>
+              <Icon mx={1} as={Feather} size="md" name="box"></Icon>
+              {/* <Avatar
+                mx={1}
+                size="sm"
+                bg="black"
+                p={2}
+                source={{
+                  uri: "https://symbols.getvecta.com/stencil_99/27_upi-icon.5c435dac48.svg",
+                }}
+              /> */}
               <Text
                 mr={2}
                 fontSize="xl"
@@ -78,13 +90,13 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
                 fontFamily="UbuntuMono"
                 onPress={() => {
                   toast.show({
-                    title: 'Copied address to clipboard',
-                    placement: 'bottom',
+                    title: "Copied address to clipboard",
+                    placement: "bottom",
                     //   borderRadius: "0px",
                   });
                 }}
               >
-                {shrinkAddress(toPay || '')}
+                {shrinkAddress(toPay || "")}
               </Text>
             </Flex>
             {/* <Tooltip label="Click here to read more" placement="bottom"> */}
@@ -109,16 +121,16 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
             // px={2}
             borderBottomWidth="1"
             borderBottomColor="gray.600"
-            _hover={{ borderBottomColor: 'gray.400' }}
+            _hover={{ borderBottomColor: "gray.400" }}
             borderRadius="0px"
-            style={{ fontFamily: 'UbuntuMono', outline: 'none' }}
+            style={{ fontFamily: "UbuntuMono", outline: "none" }}
             InputLeftElement={
               // options.INR ? (
               <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
                 {options.INR
                   ? (symbols as any)[
                       Object.keys(options).filter(
-                        (e: any) => (options as any)[e],
+                        (e: any) => (options as any)[e]
                       )[0]
                     ]
                   : undefined}
@@ -131,7 +143,7 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
                   {
                     (symbols as any)[
                       Object.keys(options).filter(
-                        (e: any) => (options as any)[e],
+                        (e: any) => (options as any)[e]
                       )[0]
                     ]
                   }
@@ -179,20 +191,20 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
       </Flex>
       <Button
         py="3"
-        maxW={'500'}
+        maxW={"500"}
         colorScheme="blue"
-        borderRadius={'full'}
+        borderRadius={"full"}
         mt="4"
         w="50%"
       >
-        <Text fontWeight={'bold'}>
-          Pay{' '}
+        <Text fontWeight={"bold"}>
+          Pay{" "}
           {amt === NaN || !amt
-            ? ''
+            ? ""
             : options.INR
-            ? '₹' + amt?.toLocaleString()
+            ? "₹" + amt?.toLocaleString()
             : amt?.toLocaleString() +
-              ' ' +
+              " " +
               (symbols as any)[
                 Object.keys(options).filter((e: any) => (options as any)[e])[0]
               ]}

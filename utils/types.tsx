@@ -3,12 +3,12 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
-} from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+} from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 declare global {
   namespace ReactNavigation {
@@ -24,7 +24,7 @@ export type RootStackParamList = {
   Home: undefined;
   Modal: undefined;
   NotFound: undefined;
-  Pay: { toPay?: string };
+  Pay: { toPay?: string; receiverAccepts?: "UPI" | "CRYPTO" };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
@@ -40,4 +40,4 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
     BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;
-export type Chains = 'matic' | 'maticmum' | 'homestead';
+export type Chains = "matic" | "maticmum" | "homestead";
