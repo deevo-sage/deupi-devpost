@@ -110,6 +110,7 @@ const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
         <BarCodeScanner
           onBarCodeScanned={(item) => {
             Linking.openURL(item.data);
+            onClose();
           }}
           style={{ width: 300, height: 300 }}
         />
