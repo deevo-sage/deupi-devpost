@@ -84,34 +84,3 @@ export const HomeHeader: FC<HomeHeaderProps> = ({}) => {
     </Flex>
   );
 };
-
-const ChainName: FC<{ check?: boolean; i?: number; onPress?: () => any }> = ({
-  children,
-  check,
-  i,
-  onPress = () => {},
-}) => {
-  const colors = ["green.400", "red.400", "blue.400"];
-  return (
-    <Pressable onPress={onPress}>
-      <Flex direction="row" w="100%" h="12" align={"center"}>
-        <Flex w="10" align={"center"}>
-          {check ? <Feather name="check" size={16} color="white" /> : <></>}
-        </Flex>
-        <Flex
-          w="4"
-          h="4"
-          mr="4"
-          borderRadius={"full"}
-          bg={colors[i || 0]}
-        ></Flex>
-        <Flex flex={1}>
-          <Text fontSize={"lg"} fontWeight="600">
-            {children}
-          </Text>
-        </Flex>
-      </Flex>
-      <Divider bg={"gray.800"} />
-    </Pressable>
-  );
-};
