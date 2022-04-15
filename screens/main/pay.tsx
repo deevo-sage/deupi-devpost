@@ -1,4 +1,5 @@
-import { Feather } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Button,
   Flex,
@@ -9,21 +10,20 @@ import {
   ScrollView,
   Text,
   useToast,
-} from "native-base";
-import React, { useState } from "react";
-import SelectModal from "../../components/SelectModal";
-import Layout from "../../constants/Layout";
-import { chainToName, shrinkAddress } from "../../utils/utils";
+} from 'native-base';
+import React, { FC, useState } from 'react';
+import SelectModal from '../../components/SelectModal';
+import Layout from '../../constants/Layout';
+import { RootStackParamList } from '../../utils/types';
+import { chainToName, shrinkAddress } from '../../utils/utils';
 
-export const Pay: React.FC = () => {
+export const Pay: FC<NativeStackScreenProps<RootStackParamList, 'Pay'>> = ({
+  route,
+}) => {
   const [amt, setAmt] = useState<number | undefined>();
-
   const toast = useToast();
-
-  const address = "0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806";
-
+  const [toPay, setToPay] = useState(route.params.toPay);
   const [isOpen, setIsOpen] = useState(false);
-
   const [modalOpen, setModalOpen] = useState(false);
 
   const onClose = () => {
@@ -31,15 +31,15 @@ export const Pay: React.FC = () => {
   };
 
   const [options, setOptions] = useState({
-    INR: true,
-    matic: false,
-    eth: false,
+    INR: false,
+    MATIC: true,
+    ETH: false,
   });
 
   const symbols = {
-    INR: "₹",
-    matic: "matic",
-    eth: "ETH",
+    INR: '₹',
+    MATIC: 'MATIC',
+    ETH: 'ETH',
   };
 
   return (
@@ -78,13 +78,13 @@ export const Pay: React.FC = () => {
                 fontFamily="UbuntuMono"
                 onPress={() => {
                   toast.show({
-                    title: "Copied address to clipboard",
-                    placement: "bottom",
+                    title: 'Copied address to clipboard',
+                    placement: 'bottom',
                     //   borderRadius: "0px",
                   });
                 }}
               >
-                {shrinkAddress(address)}
+                {shrinkAddress(toPay || '')}
               </Text>
             </Flex>
             {/* <Tooltip label="Click here to read more" placement="bottom"> */}
@@ -109,16 +109,16 @@ export const Pay: React.FC = () => {
             // px={2}
             borderBottomWidth="1"
             borderBottomColor="gray.600"
-            _hover={{ borderBottomColor: "gray.400" }}
+            _hover={{ borderBottomColor: 'gray.400' }}
             borderRadius="0px"
-            style={{ fontFamily: "UbuntuMono", outline: "none" }}
+            style={{ fontFamily: 'UbuntuMono', outline: 'none' }}
             InputLeftElement={
               // options.INR ? (
               <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
                 {options.INR
                   ? (symbols as any)[
                       Object.keys(options).filter(
-                        (e: any) => (options as any)[e]
+                        (e: any) => (options as any)[e],
                       )[0]
                     ]
                   : undefined}
@@ -131,7 +131,7 @@ export const Pay: React.FC = () => {
                   {
                     (symbols as any)[
                       Object.keys(options).filter(
-                        (e: any) => (options as any)[e]
+                        (e: any) => (options as any)[e],
                       )[0]
                     ]
                   }
@@ -179,20 +179,20 @@ export const Pay: React.FC = () => {
       </Flex>
       <Button
         py="3"
-        maxW={"500"}
+        maxW={'500'}
         colorScheme="blue"
-        borderRadius={"full"}
+        borderRadius={'full'}
         mt="4"
         w="50%"
       >
-        <Text fontWeight={"bold"}>
-          Pay{" "}
+        <Text fontWeight={'bold'}>
+          Pay{' '}
           {amt === NaN || !amt
-            ? ""
+            ? ''
             : options.INR
-            ? "₹" + amt?.toLocaleString()
+            ? '₹' + amt?.toLocaleString()
             : amt?.toLocaleString() +
-              " " +
+              ' ' +
               (symbols as any)[
                 Object.keys(options).filter((e: any) => (options as any)[e])[0]
               ]}

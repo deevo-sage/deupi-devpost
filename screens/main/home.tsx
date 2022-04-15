@@ -30,6 +30,9 @@ export const Home: FC<HomeProps> = ({}) => {
   const [mne, setmne] = useState('');
   const nav = useNavigation();
   const accountName = 'Account 1';
+  nav.navigate('Pay', {
+    toPay: '0x1Dd8D38e294D632Eab2d445beAc8340462db021d',
+  });
   const init = async () => {
     AsyncStorage.getItem('phrase')
       .then(async (mnemonic) => {
@@ -138,12 +141,13 @@ const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
   isOpen,
   onClose,
 }) => {
+  const nav = useNavigation();
   return (
     <Actionsheet isOpen={isOpen} onClose={onClose}>
       <Flex backgroundColor={'gray.900'} py="4" w="100%" align={'center'}>
         <BarCodeScanner
           onBarCodeScanned={(item) => {
-            Linking.openURL(item.data);
+            nav.navigate('Pay', { toPay: item.data });
             onClose();
           }}
           style={{ width: 300, height: 300 }}
