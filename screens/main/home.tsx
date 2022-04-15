@@ -83,6 +83,7 @@ export const Home: FC<HomeProps> = ({}) => {
       onMnemonicChange();
     }
   }, [mne, chain]);
+
   return (
     <Flex pt="4" height={'100%'}>
       <Flex align={'center'}>
@@ -117,7 +118,9 @@ export const Home: FC<HomeProps> = ({}) => {
             px="2"
             bgColor="rgba(56, 189, 248,0.1)"
           >
-            <Text>{address ? shrinkAddress(address) : ''}</Text>
+            <Text fontFamily="UbuntuMono">
+              {address ? shrinkAddress(address) : ''}
+            </Text>
           </View>
         </Pressable>
         <UtilButtons />

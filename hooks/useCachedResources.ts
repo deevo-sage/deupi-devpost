@@ -16,6 +16,8 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...FontAwesome.font,
           // "space-mono": require("../assets/fonts/SpacerMono-Regular.ttf"),
+          Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+          UbuntuMono: require("../assets/fonts/UbuntuMono-Regular.ttf"),
         });
 
         // let [fontsLoaded] = Font.useFontrs({ ...FontAwesome.font });

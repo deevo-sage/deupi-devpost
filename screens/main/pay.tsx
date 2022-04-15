@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import {
   Button,
   Flex,
@@ -9,19 +9,38 @@ import {
   ScrollView,
   Text,
   useToast,
-} from 'native-base';
-import React, { useState } from 'react';
-import Layout from '../../constants/Layout';
-import { shrinkAddress } from '../../utils/utils';
+} from "native-base";
+import React, { useState } from "react";
+import SelectModal from "../../components/SelectModal";
+import Layout from "../../constants/Layout";
+import { chainToName, shrinkAddress } from "../../utils/utils";
 
 export const Pay: React.FC = () => {
   const [amt, setAmt] = useState<number | undefined>();
 
   const toast = useToast();
 
-  const address = '0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806';
+  const address = "0xb91CC1FBCA90301807DF4B98f5A04f7Ce62a3806";
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onClose = () => {
+    setModalOpen(false);
+  };
+
+  const [options, setOptions] = useState({
+    INR: true,
+    matic: false,
+    eth: false,
+  });
+
+  const symbols = {
+    INR: "₹",
+    matic: "matic",
+    eth: "ETH",
+  };
 
   return (
     <Flex p={5} h="full" align="center" justify="space-between">
@@ -56,10 +75,11 @@ export const Pay: React.FC = () => {
                 mr={2}
                 fontSize="xl"
                 fontWeight="semibold"
+                fontFamily="UbuntuMono"
                 onPress={() => {
                   toast.show({
-                    title: 'Copied address to clipboard',
-                    placement: 'bottom',
+                    title: "Copied address to clipboard",
+                    placement: "bottom",
                     //   borderRadius: "0px",
                   });
                 }}
@@ -87,10 +107,36 @@ export const Pay: React.FC = () => {
           </Heading>
           <Input
             // px={2}
+            borderBottomWidth="1"
+            borderBottomColor="gray.600"
+            _hover={{ borderBottomColor: "gray.400" }}
+            borderRadius="0px"
+            style={{ fontFamily: "UbuntuMono", outline: "none" }}
             InputLeftElement={
-              <Text m={3} fontSize="3xl">
-                ₹
+              // options.INR ? (
+              <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
+                {options.INR
+                  ? (symbols as any)[
+                      Object.keys(options).filter(
+                        (e: any) => (options as any)[e]
+                      )[0]
+                    ]
+                  : undefined}
               </Text>
+              // ) : undefined
+            }
+            InputRightElement={
+              !options.INR ? (
+                <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
+                  {
+                    (symbols as any)[
+                      Object.keys(options).filter(
+                        (e: any) => (options as any)[e]
+                      )[0]
+                    ]
+                  }
+                </Text>
+              ) : undefined
             }
             //   value={amt}
             onChangeText={(e) => {
@@ -101,22 +147,55 @@ export const Pay: React.FC = () => {
             h="70"
             w="80%"
             textAlign="center"
-            variant="underlined"
+            variant="unstyled"
             fontSize="3xl"
             fontFamily="mono"
+          />
+          <SelectModal
+            isOpen={modalOpen}
+            onClose={onClose}
+            title="Choose a Payment Method"
+            checked={
+              Object.keys(options).filter((e: any) => (options as any)[e])[0]
+            }
+            onPressOptions={(item: any) => {
+              setOptions((r: any) => {
+                let e = JSON.parse(JSON.stringify(r));
+                for (const k in e) {
+                  if (e[k]) e[k] = false;
+
+                  e[item] = true;
+                }
+                return e;
+              });
+              onClose();
+            }}
+            options={Object.keys(options).filter((e: any) => {
+              if (!(options as any)[e]) return e;
+            })}
+            // convertChainName
           />
         </Flex>
       </Flex>
       <Button
         py="3"
-        maxW={'500'}
+        maxW={"500"}
         colorScheme="blue"
-        borderRadius={'full'}
+        borderRadius={"full"}
         mt="4"
         w="50%"
       >
-        <Text fontWeight={'bold'}>
-          Pay {amt === NaN || !amt ? '' : '₹' + amt?.toLocaleString()}
+        <Text fontWeight={"bold"}>
+          Pay{" "}
+          {amt === NaN || !amt
+            ? ""
+            : options.INR
+            ? "₹" + amt?.toLocaleString()
+            : amt?.toLocaleString() +
+              " " +
+              (symbols as any)[
+                Object.keys(options).filter((e: any) => (options as any)[e])[0]
+              ]}
         </Text>
       </Button>
     </Flex>
