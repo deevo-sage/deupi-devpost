@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Chain } from '../../recoil';
 import { ethers } from 'ethers';
+import QRCode from 'react-native-qrcode-svg';
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = ({}) => {
@@ -123,7 +124,7 @@ export const Home: FC<HomeProps> = ({}) => {
             </Text>
           </View>
         </Pressable>
-        <UtilButtons />
+        <UtilButtons address={address} />
       </Flex>
       <Divider mt="4" />
       <Flex w="100%" flex="1">
@@ -132,6 +133,7 @@ export const Home: FC<HomeProps> = ({}) => {
     </Flex>
   );
 };
+
 const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
   isOpen,
   onClose,
@@ -150,19 +152,7 @@ const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
     </Actionsheet>
   );
 };
-type ethTransaction = {
-  blockNum: string;
-  hash: string;
-  from: string;
-  to: string;
-  value: number;
-  erc721TokenId: string | null;
-  erc1155Metadata: string | null;
-  tokenId: string | null;
-  asset: string;
-  category: string;
-  rawContract: { value: string; address: string | null; decimal: string };
-};
+
 const Transactions: FC<{ address: string }> = ({ address }) => {
   var params = [
     {
@@ -312,31 +302,51 @@ const Transaction: FC<{
     </Flex>
   );
 };
-const UtilButtons = () => {
+const UtilButtons: FC<{ address: string }> = ({ address }) => {
   const [sheet, setSheet] = useState(false);
+  const [sheet2, setSheet2] = useState(false);
 
   return (
     <Flex mt="4" direction="row" justify={'space-between'}>
       <UtilButton text="Scan" Icon="maximize" onPress={() => setSheet(true)} />
-      <UtilButton text="Recieve" Icon="arrow-down" />
-      <UtilButton text="Send" Icon="arrow-up-right" />
+      <UtilButton
+        text="Recieve"
+        Icon="arrow-down"
+        onPress={() => setSheet2(true)}
+      />
+      <UtilButton text="Send" Icon="arrow-up-right" isDisabled />
       <QrScanner isOpen={sheet} onClose={() => setSheet(false)} />
+      <QrCodeSheet
+        address={address}
+        isOpen={sheet2}
+        onClose={() => setSheet2(false)}
+      />
     </Flex>
   );
 };
-interface UtilButtonProps {
-  Icon?: string;
-  text?: string;
-  onPress?: () => any;
-}
+const QrCodeSheet: FC<{
+  address: string;
+  isOpen: boolean;
+  onClose: () => any;
+}> = ({ address, isOpen, onClose }) => {
+  return (
+    <Actionsheet isOpen={isOpen} onClose={onClose}>
+      <Flex backgroundColor={'gray.900'} py="4" w="100%" align={'center'}>
+        <QRCode value={address || 'asdasd'} size={150} />
+      </Flex>
+    </Actionsheet>
+  );
+};
+
 const UtilButton: FC<UtilButtonProps> = ({
   onPress = () => {},
   text,
   Icon,
+  isDisabled,
 }) => {
   return (
-    <Pressable onPress={onPress}>
-      <Flex align={'center'}>
+    <Pressable onPress={onPress} isDisabled={isDisabled}>
+      <Flex align={'center'} style={{ opacity: isDisabled ? 0.5 : 1 }}>
         <Flex
           align={'center'}
           justify="center"
@@ -435,3 +445,22 @@ const dummyTransactions = [
     rawContract: { value: '0x0', address: null, decimal: '0x12' },
   },
 ];
+type ethTransaction = {
+  blockNum: string;
+  hash: string;
+  from: string;
+  to: string;
+  value: number;
+  erc721TokenId: string | null;
+  erc1155Metadata: string | null;
+  tokenId: string | null;
+  asset: string;
+  category: string;
+  rawContract: { value: string; address: string | null; decimal: string };
+};
+interface UtilButtonProps {
+  Icon?: string;
+  text?: string;
+  onPress?: () => any;
+  isDisabled?: boolean;
+}
