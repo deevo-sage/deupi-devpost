@@ -39,7 +39,7 @@ export const Pay: React.FC = () => {
   const symbols = {
     INR: "₹",
     matic: "matic",
-    eth: "eth",
+    eth: "ETH",
   };
 
   return (
@@ -75,6 +75,7 @@ export const Pay: React.FC = () => {
                 mr={2}
                 fontSize="xl"
                 fontWeight="semibold"
+                fontFamily="UbuntuMono"
                 onPress={() => {
                   toast.show({
                     title: "Copied address to clipboard",
@@ -106,6 +107,11 @@ export const Pay: React.FC = () => {
           </Heading>
           <Input
             // px={2}
+            borderBottomWidth="1"
+            borderBottomColor="gray.600"
+            _hover={{ borderBottomColor: "gray.400" }}
+            borderRadius="0px"
+            style={{ fontFamily: "UbuntuMono", outline: "none" }}
             InputLeftElement={
               // options.INR ? (
               <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
@@ -141,7 +147,7 @@ export const Pay: React.FC = () => {
             h="70"
             w="80%"
             textAlign="center"
-            variant="underlined"
+            variant="unstyled"
             fontSize="3xl"
             fontFamily="mono"
           />
@@ -187,7 +193,9 @@ export const Pay: React.FC = () => {
             ? "₹" + amt?.toLocaleString()
             : amt?.toLocaleString() +
               " " +
-              Object.keys(options).filter((e: any) => (options as any)[e])[0]}
+              (symbols as any)[
+                Object.keys(options).filter((e: any) => (options as any)[e])[0]
+              ]}
         </Text>
       </Button>
     </Flex>

@@ -14,7 +14,10 @@ const config = {
   initialColorMode: "dark",
 };
 
-const customTheme = extendTheme({ config });
+const customTheme = extendTheme({
+  config,
+  fonts: { body: "Poppins", heading: "Poppins" },
+});
 export default function Navigation({}: {}) {
   return (
     <NativeBaseProvider theme={customTheme}>
@@ -34,7 +37,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Pay"
+      initialRouteName="Home"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
