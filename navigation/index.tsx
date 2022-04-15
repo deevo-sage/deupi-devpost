@@ -86,7 +86,7 @@ function RootNavigator() {
         name="Home"
         component={Home}
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <Stack.Screen
