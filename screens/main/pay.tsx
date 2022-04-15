@@ -19,7 +19,7 @@ import { useRecoilValue } from "recoil";
 import SelectModal from "../../components/SelectModal";
 import Layout from "../../constants/Layout";
 import { phraseAtom } from "../../recoil";
-import { getProvider, walletFromPhrase } from "../../utils";
+import { ABI, getProvider, walletFromPhrase } from "../../utils";
 import { RootStackParamList } from "../../utils/types";
 import { chainToName, shrinkAddress } from "../../utils/utils";
 
@@ -31,8 +31,9 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
   const [toPay, setToPay] = useState(route.params.toPay);
   const method = route.params.receiverAccepts;
   // let phrase, provider, wallet;
+  const [loading, setLoading] = useState<boolean>(false);
   const phrase = useRecoilValue(phraseAtom);
-  const provider = useMemo(() => getProvider("matic"), []);
+  const provider = useMemo(() => getProvider("maticmum"), []);
   const wallet = useMemo(() => walletFromPhrase(provider, phrase || ""), []);
 
   // console.log(phrase, provider, wallet);
@@ -61,17 +62,37 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
     ETH: "ETH",
   };
 
-  const resolvePay = () => {
-    const balance = wallet?.getBalance();
+  const resolvePay = async () => {
+    setLoading(true);
+    setIsOpenPay(false);
+    const balance = await wallet?.getBalance();
     const amount = ethers.utils.parseEther(`${amt || 0}`);
 
-    setIsOpenPay(true);
+    if (!balance?.gte(amount)) {
+      toast.show({
+        title: "Insufficient Balance In Your Wallet",
+      });
+    }
+
+    if (method === "UPI") {
+      const contract = new ethers.Contract(
+        "0x0CE46bf8d1f3C12FC16Cfa9aD0863Ef68f430213",
+        ABI,
+        wallet
+      );
+      const x = await contract.functions.pay(toPay, amount, {
+        value: amount,
+      });
+    } else if (method === "CRYPTO") {
+      sendTrasaction(toPay || "", `${amt || 0}`);
+    }
+    setLoading(false);
   };
   const sendTrasaction = async (to_address: string, val: string) => {
-    const mne = phrase || "";
+    // const mne = phrase || "";
     const gas_limit = 100000;
-    const provider = getProvider("maticmum");
-    const wallet = walletFromPhrase(provider, mne);
+    // const provider = getProvider("maticmum");
+    // const wallet = walletFromPhrase(provider, mne);
     const tx = {
       from: wallet?.address,
       to: to_address,
@@ -83,21 +104,19 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
       // gasLimit: ethers.utils.hexlify(gas_limit), // 100000
       // gasPrice: ethers.utils.hexlify(gas_limit / 10),
     };
-    console.log(tx);
+    // console.log(tx);
     if (wallet)
       wallet
         .sendTransaction(tx)
         .then(async (transaction) => {
-          console.log(transaction);
+          // console.log(transaction);
           await transaction.wait();
 
-          alert("Send finished!");
+          // alert("Send finished!");
         })
         .catch((err) => console.log(err));
   };
-  // useEffect(() => {
-  //   sendTrasaction(toPay, '0.001');
-  // }, []);
+
   return (
     <Flex p={5} h="full" align="center" justify="space-between">
       <Flex align="center">
@@ -253,8 +272,9 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
         borderRadius={"full"}
         mt="4"
         w="50%"
+        isLoading={loading}
         onPress={() => {
-          resolvePay();
+          setIsOpenPay(true);
         }}
       >
         <Text fontWeight={"bold"}>
@@ -277,6 +297,7 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
         method={method}
         address={wallet?.address}
         amount={amt || 0}
+        resolvePay={resolvePay}
         crypto={
           (symbols as any)[
             Object.keys(options).filter((e: any) => (options as any)[e])[0]
@@ -326,6 +347,7 @@ const PayModal: React.FC<{
   address: string | undefined;
   amount: number;
   crypto: string;
+  resolvePay?: any;
 }> = ({
   modalVisible,
   setModalVisible,
@@ -334,9 +356,11 @@ const PayModal: React.FC<{
   address,
   amount,
   crypto,
+  resolvePay,
 }) => {
   // const [modalVisible, setModalVisible] = React.useState(false);
   const nav = useNavigation();
+  // console.log({ toPay });
   return (
     <>
       <Modal isOpen={modalVisible} onClose={setModalVisible} size="md">
@@ -354,7 +378,9 @@ const PayModal: React.FC<{
             />
             <InfoRow
               text1="To"
-              text2={method === "UPI" ? shrinkAddress(toPay || "") : ""}
+              text2={
+                method === "CRYPTO" ? shrinkAddress(toPay || "") : "UPI_ID"
+              }
               border={false}
             />
             <InfoRow
@@ -393,7 +419,7 @@ const PayModal: React.FC<{
               mt="4"
               w="50%"
               onPress={() => {
-                // console.log("hi");
+                resolvePay();
               }}
             >
               <Text fontWeight={"bold"}>Sign Transaction</Text>

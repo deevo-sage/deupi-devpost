@@ -32,7 +32,7 @@ export const Home: FC<HomeProps> = ({}) => {
   const accountName = "Account 1";
   nav.navigate("Pay", {
     toPay: "0x1Dd8D38e294D632Eab2d445beAc8340462db021d",
-    receiverAccepts: "UPI",
+    receiverAccepts: "CRYPTO",
   });
   const init = async () => {
     AsyncStorage.getItem("phrase")
