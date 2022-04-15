@@ -180,7 +180,14 @@ export const Pay: React.FC = () => {
         w="50%"
       >
         <Text fontWeight={"bold"}>
-          Pay {amt === NaN || !amt ? "" : "₹" + amt?.toLocaleString()}
+          Pay{" "}
+          {amt === NaN || !amt
+            ? ""
+            : options.INR
+            ? "₹" + amt?.toLocaleString()
+            : amt?.toLocaleString() +
+              " " +
+              Object.keys(options).filter((e: any) => (options as any)[e])[0]}
         </Text>
       </Button>
     </Flex>
