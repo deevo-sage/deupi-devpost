@@ -64,6 +64,7 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
 
   const resolvePay = async () => {
     setLoading(true);
+    const nav = useNavigation();
     setIsOpenPay(false);
     const balance = await wallet?.getBalance();
     const amount = ethers.utils.parseEther(`${amt || 0}`);
@@ -86,7 +87,12 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
     } else if (method === "CRYPTO") {
       sendTrasaction(toPay || "", `${amt || 0}`);
     }
-    setLoading(false);
+    nav.navigate("Success", {
+      payedTo: toPay,
+      amount: amt || 0,
+      crypto: "MATIC",
+      receiverAccepted: method,
+    });
   };
   const sendTrasaction = async (to_address: string, val: string) => {
     // const mne = phrase || "";

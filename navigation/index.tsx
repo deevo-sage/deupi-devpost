@@ -5,6 +5,7 @@ import * as React from "react";
 import { Congo, Import, Login, Signup } from "../screens/auth";
 import { Home, Pay } from "../screens/main";
 import { HomeHeader } from "../screens/main/homeHeader";
+import { Success } from "../screens/main/success";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../utils/types";
 // import LinkingConfiguration from "./LinkingConfiguration";
@@ -37,7 +38,7 @@ function RootNavigator() {
   return (
     // @ts-ignore:next-line
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Signup"
       screenOptions={{
         headerStyle: {
           // @ts-ignore:next-line
@@ -49,6 +50,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Success"
+        component={Success}
         options={{ headerShown: false }}
       />
       <Stack.Screen

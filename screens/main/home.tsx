@@ -31,9 +31,11 @@ export const Home: FC<HomeProps> = ({}) => {
   const [mne, setmne] = useState("");
   const nav = useNavigation();
   const accountName = "Account 1";
-  // nav.navigate('Pay', {
-  //   toPay: '0x1Dd8D38e294D632Eab2d445beAc8340462db021d',
-  //   receiverAccepts: 'CRYPTO',
+  // nav.navigate("Success", {
+  //   payedTo: "0x1Dd8D38e294D632Eab2d445beAc8340462db021d",
+  //   amount: 0.01,
+  //   crypto: "MATIC",
+  //   receiverAccepted: "CRYPTO",
   // });
   const init = async () => {
     AsyncStorage.getItem("phrase")

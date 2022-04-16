@@ -25,6 +25,12 @@ export type RootStackParamList = {
   Modal: undefined;
   NotFound: undefined;
   Pay: { toPay?: string; receiverAccepts?: "UPI" | "CRYPTO" };
+  Success: {
+    payedTo?: string;
+    amount?: number;
+    crypto?: string;
+    receiverAccepted?: "CRYPTO" | "UPI";
+  };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
