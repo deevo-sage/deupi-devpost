@@ -314,7 +314,8 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
 const InfoModal: React.FC<{
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ modalVisible, setModalVisible }) => {
+  method?: "CRYPTO" | "UPI";
+}> = ({ modalVisible, setModalVisible, method = "CRYPTO" }) => {
   // const [modalVisible, setModalVisible] = React.useState(false);
 
   return (
@@ -328,9 +329,9 @@ const InfoModal: React.FC<{
           <Modal.Body>
             <ScrollView>
               <Text>
-                This symbol means that the receiver accepts money directly into
-                their crypto wallet. The money you send will directly be
-                transferred to their crypto wallet
+                {method === "CRYPTO"
+                  ? "This symbol means that the receiver accepts money directly into their crypto wallet. The money you send will directly be transferred to their crypto wallet"
+                  : "This symbol means that the receiver accepts money in INR. The money you send will directly be converted to INR and sent to the receiver"}
               </Text>
             </ScrollView>
           </Modal.Body>
