@@ -126,9 +126,9 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
           justify="space-between"
           // bg="red.200"
         >
-          <Flex direction="row" justify="center">
+          <Flex mt="5" direction="row" justify="center">
             <Flex
-              position="absolute"
+              // position="absolute"
               // border="1px solid red"
               borderWidth="1px"
               p={2}
@@ -137,7 +137,7 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
               borderStyle="solid"
               borderColor="gray.500"
               direction="row"
-              flex="1"
+              // flex="1"
               align="center"
               justify="center"
             >
@@ -180,7 +180,8 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
               bg="transparent"
               _focus={{ _hover: {} }}
               size="md"
-              mr="-250"
+              // mr="-250"
+              // position="absolute"
               mt="1"
               onPress={() => setIsOpen(true)}
             >
@@ -198,7 +199,8 @@ export const Pay: FC<NativeStackScreenProps<RootStackParamList, "Pay">> = ({
             borderBottomColor="gray.600"
             _hover={{ borderBottomColor: "gray.400" }}
             borderRadius="0px"
-            style={{ fontFamily: "UbuntuMono", outline: "none" }}
+            // focusOutlineColor="black"
+            style={{ fontFamily: "UbuntuMono" }}
             InputLeftElement={
               // options.INR ? (
               <Text m={3} fontSize="3xl" onPress={() => setModalOpen(true)}>
