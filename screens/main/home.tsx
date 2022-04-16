@@ -8,6 +8,7 @@ import {
   View,
 } from 'native-base';
 import '@ethersproject/shims';
+import { URL } from 'react-native-url-polyfill';
 import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import { LogBox } from 'react-native';
@@ -150,7 +151,6 @@ const QrScanner: FC<{ isOpen: boolean; onClose: () => any }> = ({
           onBarCodeScanned={(item) => {
             if (item.data.includes('@')) {
               const x = new URL(item.data);
-              console.log(x.searchParams.get('pa'));
               nav.navigate('Pay', {
                 toPay: x.searchParams.get('pa') || '',
                 receiverAccepts: 'UPI',
